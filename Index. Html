@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admission Saathi</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        header {
+            background: #ffffff;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .login {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 70px 20px;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 span {
+            color: #2563eb;
+        }
+
+        .hero p {
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        .search {
+            max-width: 650px;
+            margin: auto;
+            display: flex;
+            background: white;
+            padding: 8px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .search input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 15px;
+            font-size: 16px;
+        }
+
+        .search button {
+            border: none;
+            background: #2563eb;
+            color: white;
+            padding: 0 22px;
+            border-radius: 8px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px 6%;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+        }
+
+        .card h3 {
+            margin: 12px 0;
+        }
+
+        .card p {
+            color: #6b7280;
+        }
+
+        @media (max-width: 700px) {
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🎓 Admission Saathi</div>
+    <button class="login">Login</button>
+</header>
+
+<section class="hero">
+
+    <h1>Find Your <span>Perfect College</span></h1>
+
+    <p>
+        College, course, fees aur admission information —
+        sab kuch ek jagah.
+    </p>
+
+    <div class="search">
+        <input
+            type="text"
+            placeholder="Search college or course..."
+        >
+
+        <button>Search</button>
+    </div>
+
+</section>
+
+<section class="features">
+
+    <div class="card">
+        🎓
+        <h3>Find Colleges</h3>
+        <p>Apne area ke colleges easily search karein.</p>
+    </div>
+
+    <div class="card">
+        💰
+        <h3>Check Fees</h3>
+        <p>College aur course ki fees compare karein.</p>
+    </div>
+
+    <div class="card">
+        📅
+        <h3>Admission Updates</h3>
+        <p>Admission dates aur important updates dekhein.</p>
+    </div>
+
+</section>
+
+</body>
+</html>
