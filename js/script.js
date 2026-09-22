@@ -85,11 +85,180 @@ searchForm.addEventListener('submit', (event) => { event.preventDefault(); updat
 homeSearchForm.addEventListener('submit', (event) => { event.preventDefault(); searchInput.value = homeSearchInput.value; updateVisibleCards(); document.querySelector('#college-filters').scrollIntoView({ behavior: 'smooth' }); });
 filterForm.addEventListener('reset', () => { searchInput.value = ''; requestAnimationFrame(updateVisibleCards); });
 
+const accountButton = document.querySelector('#account-button');
+const accountModal = document.querySelector('#account-modal');
+const accountModalCloseButton = document.querySelector('#account-modal-close');
+const profileModal = document.querySelector('#profile-modal');
+const profileModalCloseButton = document.querySelector('#profile-modal-close');
+const loginState = document.querySelector('#login-state');
+const signupState = document.querySelector('#signup-state');
+const loginForm = document.querySelector('#login-form');
+const signupForm = document.querySelector('#signup-form');
+const loginMessage = document.querySelector('#login-message');
+const signupMessage = document.querySelector('#signup-message');
+const profileFields = {
+  name: document.querySelector('#profile-name'),
+  email: document.querySelector('#profile-email'),
+  mobile: document.querySelector('#profile-mobile')
+};
+const showSignupButton = document.querySelector('#show-signup');
+const showLoginButton = document.querySelector('#show-login');
+const logoutButton = document.querySelector('#logout-button');
+const demoProfileKey = 'admissionSaathiDemoProfile';
+const demoSessionKey = 'admissionSaathiDemoSession';
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const mobilePattern = /^[6-9]\d{9}$/;
+
+const getStoredProfile = () => {
+  try {
+    return JSON.parse(localStorage.getItem(demoProfileKey));
+  } catch {
+    return null;
+  }
+};
+
+const getCurrentProfile = () => {
+  const profile = getStoredProfile();
+  const sessionIdentifier = localStorage.getItem(demoSessionKey);
+  if (!profile || !sessionIdentifier || ![profile.email, profile.mobile].includes(sessionIdentifier)) return null;
+  return profile;
+};
+
+const setMessage = (element, message, isSuccess = false) => {
+  element.textContent = message;
+  element.classList.toggle('success', isSuccess);
+};
+
+const clearFormMessages = (form) => {
+  form.querySelectorAll('.field-error').forEach((field) => { field.textContent = ''; });
+  setMessage(form.querySelector('.form-message'), '');
+};
+
+const setAccountModalState = (state) => {
+  const isSignup = state === 'signup';
+  loginState.hidden = isSignup;
+  signupState.hidden = !isSignup;
+  clearFormMessages(isSignup ? signupForm : loginForm);
+};
+
+const openAccountModal = (state = 'login') => {
+  setAccountModalState(state);
+  accountModal.hidden = false;
+  (state === 'signup' ? signupForm : loginForm).querySelector('input').focus();
+};
+
+const closeAccountModal = () => {
+  accountModal.hidden = true;
+};
+
+const openProfileModal = () => {
+  const profile = getCurrentProfile();
+  if (!profile) return openAccountModal();
+  profileFields.name.textContent = profile.fullName;
+  profileFields.email.textContent = profile.email;
+  profileFields.mobile.textContent = profile.mobile;
+  profileModal.hidden = false;
+  profileModalCloseButton.focus();
+};
+
+const closeProfileModal = () => {
+  profileModal.hidden = true;
+};
+
+const updateAccountButton = () => {
+  const profile = getCurrentProfile();
+  accountButton.textContent = profile ? profile.fullName : 'Login';
+  accountButton.setAttribute('aria-label', profile ? `Open profile for ${profile.fullName}` : 'Open login dialog');
+};
+
+const validateSignup = (formData) => {
+  const errors = {};
+  if (!formData.fullName.trim()) errors.name = 'Please enter your full name.';
+  if (!emailPattern.test(formData.email.trim())) errors.email = 'Enter a valid email address.';
+  if (!mobilePattern.test(formData.mobile.trim())) errors.mobile = 'Enter a valid 10-digit mobile number.';
+  if (formData.password.length < 6) errors.password = 'Password must be at least 6 characters.';
+  if (formData.password !== formData.confirmPassword) errors.confirmPassword = 'Passwords do not match.';
+  return errors;
+};
+
+const showSignupErrors = (errors) => {
+  const fields = { name: '#signup-name-error', email: '#signup-email-error', mobile: '#signup-mobile-error', password: '#signup-password-error', confirmPassword: '#signup-confirm-password-error' };
+  Object.entries(fields).forEach(([field, selector]) => { document.querySelector(selector).textContent = errors[field] || ''; });
+};
+
+accountButton.addEventListener('click', () => {
+  if (getCurrentProfile()) openProfileModal();
+  else openAccountModal();
+});
+accountModalCloseButton.addEventListener('click', closeAccountModal);
+profileModalCloseButton.addEventListener('click', closeProfileModal);
+showSignupButton.addEventListener('click', () => setAccountModalState('signup'));
+showLoginButton.addEventListener('click', () => setAccountModalState('login'));
+accountModal.addEventListener('click', (event) => { if (event.target === accountModal) closeAccountModal(); });
+profileModal.addEventListener('click', (event) => { if (event.target === profileModal) closeProfileModal(); });
+
+signupForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  clearFormMessages(signupForm);
+  const formData = Object.fromEntries(new FormData(signupForm));
+  const errors = validateSignup(formData);
+  showSignupErrors(errors);
+  if (Object.keys(errors).length) return;
+
+  const profile = { fullName: formData.fullName.trim(), email: formData.email.trim().toLowerCase(), mobile: formData.mobile.trim() };
+  localStorage.setItem(demoProfileKey, JSON.stringify(profile));
+  localStorage.setItem(demoSessionKey, profile.email);
+  updateAccountButton();
+  signupForm.reset();
+  closeAccountModal();
+  openProfileModal();
+});
+
+loginForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  clearFormMessages(loginForm);
+  const identifier = loginForm.elements.identifier.value.trim().toLowerCase();
+  const password = loginForm.elements.password.value;
+  const profile = getStoredProfile();
+  let hasError = false;
+  if (!identifier) {
+    document.querySelector('#login-identifier-error').textContent = 'Enter your email or mobile number.';
+    hasError = true;
+  }
+  if (password.length < 6) {
+    document.querySelector('#login-password-error').textContent = 'Password must be at least 6 characters.';
+    hasError = true;
+  }
+  if (hasError) return;
+  if (!profile || ![profile.email, profile.mobile].includes(identifier)) {
+    setMessage(loginMessage, 'No demo account found. Please sign up first.');
+    return;
+  }
+
+  localStorage.setItem(demoSessionKey, profile.email);
+  updateAccountButton();
+  loginForm.reset();
+  closeAccountModal();
+  openProfileModal();
+});
+
+logoutButton.addEventListener('click', () => {
+  localStorage.removeItem(demoSessionKey);
+  updateAccountButton();
+  closeProfileModal();
+});
+
 const closeCollegeModal = () => { collegeModal.hidden = true; };
 modalCloseButton.addEventListener('click', closeCollegeModal);
 collegeModal.addEventListener('click', (event) => { if (event.target === collegeModal) closeCollegeModal(); });
-document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !collegeModal.hidden) closeCollegeModal(); });
+document.addEventListener('keydown', (event) => {
+  if (event.key !== 'Escape') return;
+  if (!collegeModal.hidden) closeCollegeModal();
+  else if (!accountModal.hidden) closeAccountModal();
+  else if (!profileModal.hidden) closeProfileModal();
+});
 
 renderCollegeCards();
 populateFilterOptions();
 updateVisibleCards();
+updateAccountButton();

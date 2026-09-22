@@ -28,6 +28,37 @@
       text-align: center;
     }
 
+    .page-header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 28px;
+      text-align: left;
+    }
+
+    .brand-name {
+      margin: 0;
+      color: #1e3a8a;
+      font-size: 1.3rem;
+    }
+
+    .account-button {
+      min-height: 42px;
+      padding: 10px 16px;
+      border: 1px solid #2563eb;
+      border-radius: 10px;
+      background: #fff;
+      color: #2563eb;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 600;
+    }
+
+    .account-button:hover {
+      background: #eff6ff;
+    }
+
     .home-section {
       margin-bottom: 56px;
       padding: clamp(32px, 7vw, 72px) clamp(20px, 6vw, 72px);
@@ -332,6 +363,164 @@
       box-shadow: 0 20px 50px rgba(17, 24, 39, 0.25);
     }
 
+    .account-modal[hidden],
+    .profile-modal[hidden] {
+      display: none;
+    }
+
+    .account-modal,
+    .profile-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: rgba(17, 24, 39, 0.68);
+    }
+
+    .account-modal-content,
+    .profile-modal-content {
+      position: relative;
+      width: min(100%, 460px);
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+      padding: 32px;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 20px 50px rgba(17, 24, 39, 0.25);
+    }
+
+    .account-modal h2,
+    .profile-modal h2 {
+      margin: 0 42px 8px 0;
+      color: #111827;
+    }
+
+    .modal-subtitle {
+      margin: 0 0 22px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      border: 0;
+      border-radius: 50%;
+      background: #eff6ff;
+      color: #2563eb;
+      cursor: pointer;
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .account-form {
+      display: grid;
+      gap: 14px;
+    }
+
+    .account-field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .account-field label {
+      color: #374151;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .account-field input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #dbe2ea;
+      border-radius: 10px;
+      color: #1f2937;
+      font: inherit;
+    }
+
+    .account-field input:focus {
+      border-color: #2563eb;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .field-error,
+    .form-message {
+      min-height: 18px;
+      margin: 0;
+      color: #b91c1c;
+      font-size: 0.86rem;
+    }
+
+    .form-message.success {
+      color: #166534;
+    }
+
+    .account-submit,
+    .logout-button {
+      width: 100%;
+      padding: 13px 16px;
+      border: 0;
+      border-radius: 10px;
+      background: #2563eb;
+      color: #fff;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 600;
+    }
+
+    .account-submit:hover,
+    .logout-button:hover {
+      background: #1d4ed8;
+    }
+
+    .account-switch {
+      margin: 4px 0 0;
+      color: #6b7280;
+      text-align: center;
+      font-size: 0.92rem;
+    }
+
+    .account-switch button {
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: #2563eb;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 600;
+    }
+
+    .profile-details {
+      display: grid;
+      gap: 14px;
+      margin: 22px 0;
+    }
+
+    .profile-details div {
+      display: grid;
+      gap: 4px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #e8edf3;
+    }
+
+    .profile-details dt {
+      color: #6b7280;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .profile-details dd {
+      margin: 0;
+      color: #1f2937;
+      overflow-wrap: anywhere;
+    }
+
     .college-modal-close {
       position: absolute;
       top: 14px;
@@ -554,6 +743,10 @@
 <body>
   <main class="page-container">
     <header class="page-header">
+      <div class="page-header-top">
+        <p class="brand-name">Admission Saathi</p>
+        <button class="account-button" id="account-button" type="button">Login</button>
+      </div>
       <h1>Find Your Right College</h1>
       <p>Explore colleges and discover the right path for your future.</p>
     </header>
@@ -644,6 +837,80 @@
       </div>
     </section>
   </main>
+
+  <div class="account-modal" id="account-modal" role="dialog" aria-modal="true" aria-labelledby="account-modal-title" hidden>
+    <div class="account-modal-content">
+      <button class="modal-close" id="account-modal-close" type="button" aria-label="Close account dialog">&times;</button>
+      <section id="login-state">
+        <h2 id="account-modal-title">Welcome back</h2>
+        <p class="modal-subtitle">Sign in to keep your admission journey organised. Demo mode only; this is not secure authentication.</p>
+        <form class="account-form" id="login-form" novalidate>
+          <div class="account-field">
+            <label for="login-identifier">Email / Mobile Number</label>
+            <input id="login-identifier" name="identifier" type="text" autocomplete="username" required>
+            <p class="field-error" id="login-identifier-error" aria-live="polite"></p>
+          </div>
+          <div class="account-field">
+            <label for="login-password">Password</label>
+            <input id="login-password" name="password" type="password" autocomplete="current-password" required minlength="6">
+            <p class="field-error" id="login-password-error" aria-live="polite"></p>
+          </div>
+          <p class="form-message" id="login-message" aria-live="polite"></p>
+          <button class="account-submit" type="submit">Login</button>
+          <p class="account-switch">Don't have an account? <button id="show-signup" type="button">Sign Up</button></p>
+        </form>
+      </section>
+
+      <section id="signup-state" hidden>
+        <h2>Join Admission Saathi</h2>
+        <p class="modal-subtitle">Create a demo profile to personalise your experience.</p>
+        <form class="account-form" id="signup-form" novalidate>
+          <div class="account-field">
+            <label for="signup-name">Full Name</label>
+            <input id="signup-name" name="fullName" type="text" autocomplete="name" required>
+            <p class="field-error" id="signup-name-error" aria-live="polite"></p>
+          </div>
+          <div class="account-field">
+            <label for="signup-email">Email</label>
+            <input id="signup-email" name="email" type="email" autocomplete="email" required>
+            <p class="field-error" id="signup-email-error" aria-live="polite"></p>
+          </div>
+          <div class="account-field">
+            <label for="signup-mobile">Mobile Number</label>
+            <input id="signup-mobile" name="mobile" type="tel" autocomplete="tel" required>
+            <p class="field-error" id="signup-mobile-error" aria-live="polite"></p>
+          </div>
+          <div class="account-field">
+            <label for="signup-password">Password</label>
+            <input id="signup-password" name="password" type="password" autocomplete="new-password" required minlength="6">
+            <p class="field-error" id="signup-password-error" aria-live="polite"></p>
+          </div>
+          <div class="account-field">
+            <label for="signup-confirm-password">Confirm Password</label>
+            <input id="signup-confirm-password" name="confirmPassword" type="password" autocomplete="new-password" required minlength="6">
+            <p class="field-error" id="signup-confirm-password-error" aria-live="polite"></p>
+          </div>
+          <p class="form-message" id="signup-message" aria-live="polite"></p>
+          <button class="account-submit" type="submit">Create Account</button>
+          <p class="account-switch">Already have an account? <button id="show-login" type="button">Login</button></p>
+        </form>
+      </section>
+    </div>
+  </div>
+
+  <div class="profile-modal" id="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profile-modal-title" hidden>
+    <div class="profile-modal-content">
+      <button class="modal-close" id="profile-modal-close" type="button" aria-label="Close profile dialog">&times;</button>
+      <h2 id="profile-modal-title">Your Profile</h2>
+      <p class="modal-subtitle">Your saved demo profile details.</p>
+      <dl class="profile-details">
+        <div><dt>Full Name</dt><dd id="profile-name"></dd></div>
+        <div><dt>Email</dt><dd id="profile-email"></dd></div>
+        <div><dt>Mobile Number</dt><dd id="profile-mobile"></dd></div>
+      </dl>
+      <button class="logout-button" id="logout-button" type="button">Logout</button>
+    </div>
+  </div>
 
   <div class="college-modal" id="college-modal" role="dialog" aria-modal="true" aria-labelledby="modal-college-name" hidden>
     <div class="college-modal-content">
