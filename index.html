@@ -183,6 +183,91 @@
       display: none !important;
     }
 
+    .college-modal[hidden] {
+      display: none;
+    }
+
+    .college-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: rgba(17, 24, 39, 0.68);
+    }
+
+    .college-modal-content {
+      position: relative;
+      width: min(100%, 560px);
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+      padding: 32px;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 20px 50px rgba(17, 24, 39, 0.25);
+    }
+
+    .college-modal-close {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      border: 0;
+      border-radius: 50%;
+      background: #eff6ff;
+      color: #2563eb;
+      cursor: pointer;
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .college-modal-close:hover {
+      background: #dbeafe;
+    }
+
+    .college-modal h2 {
+      margin: 0 44px 22px 0;
+      color: #111827;
+      font-size: 1.5rem;
+      line-height: 1.3;
+    }
+
+    .modal-details {
+      display: grid;
+      gap: 14px;
+      margin: 0;
+    }
+
+    .modal-details div {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #e8edf3;
+    }
+
+    .modal-details dt {
+      color: #6b7280;
+      font-weight: 600;
+    }
+
+    .modal-details dd {
+      margin: 0;
+      color: #1f2937;
+      text-align: right;
+    }
+
+    .modal-details a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    .modal-details a:hover {
+      text-decoration: underline;
+    }
+
     .college-card h3 {
       margin: 0 0 14px;
       color: #111827;
@@ -365,7 +450,7 @@
     <section class="college-listing" aria-labelledby="college-listing-title">
       <h2 id="college-listing-title">Featured Colleges</h2>
       <div class="college-grid">
-        <article class="college-card" data-location="Delhi" data-course-type="Engineering">
+        <article class="college-card" data-location="Delhi" data-course-type="Engineering" data-established="1961" data-ranking="#4 Engineering Institute in India" data-website="https://home.iitd.ac.in">
           <h3>Indian Institute of Technology Delhi</h3>
           <dl class="college-info">
             <div><dt>Location</dt><dd>New Delhi</dd></div>
@@ -375,7 +460,7 @@
           <button class="view-details" type="button">View Details</button>
         </article>
 
-        <article class="college-card" data-location="Vellore" data-course-type="Medical">
+        <article class="college-card" data-location="Vellore" data-course-type="Medical" data-established="1942" data-ranking="#1 Medical College in India" data-website="https://www.cmch-vellore.edu">
           <h3>Christian Medical College</h3>
           <dl class="college-info">
             <div><dt>Location</dt><dd>Vellore</dd></div>
@@ -385,7 +470,7 @@
           <button class="view-details" type="button">View Details</button>
         </article>
 
-        <article class="college-card" data-location="Mumbai" data-course-type="Arts &amp; Commerce">
+        <article class="college-card" data-location="Mumbai" data-course-type="Arts &amp; Commerce" data-established="1869" data-ranking="Top 10 Arts Colleges in India" data-website="https://xaviers.ac">
           <h3>St. Xavier's College</h3>
           <dl class="college-info">
             <div><dt>Location</dt><dd>Mumbai</dd></div>
@@ -395,7 +480,7 @@
           <button class="view-details" type="button">View Details</button>
         </article>
 
-        <article class="college-card" data-location="Bengaluru" data-course-type="Design">
+        <article class="college-card" data-location="Bengaluru" data-course-type="Design" data-established="1986" data-ranking="Top 5 Design Institutes in India" data-website="https://www.nift.ac.in">
           <h3>National Institute of Fashion Technology</h3>
           <dl class="college-info">
             <div><dt>Location</dt><dd>Bengaluru</dd></div>
@@ -405,7 +490,7 @@
           <button class="view-details" type="button">View Details</button>
         </article>
 
-        <article class="college-card" data-location="Ahmedabad" data-course-type="Management">
+        <article class="college-card" data-location="Ahmedabad" data-course-type="Management" data-established="1961" data-ranking="#1 Management Institute in India" data-website="https://www.iima.ac.in">
           <h3>Indian Institute of Management Ahmedabad</h3>
           <dl class="college-info">
             <div><dt>Location</dt><dd>Ahmedabad</dd></div>
@@ -415,7 +500,7 @@
           <button class="view-details" type="button">View Details</button>
         </article>
 
-        <article class="college-card" data-location="Pilani" data-course-type="Engineering">
+        <article class="college-card" data-location="Pilani" data-course-type="Engineering" data-established="1964" data-ranking="Top 20 Engineering Institutes in India" data-website="https://www.bits-pilani.ac.in">
           <h3>Birla Institute of Technology and Science</h3>
           <dl class="college-info">
             <div><dt>Location</dt><dd>Pilani</dd></div>
@@ -427,6 +512,21 @@
       </div>
     </section>
   </main>
+
+  <div class="college-modal" id="college-modal" role="dialog" aria-modal="true" aria-labelledby="modal-college-name" hidden>
+    <div class="college-modal-content">
+      <button class="college-modal-close" type="button" aria-label="Close college details">&times;</button>
+      <h2 id="modal-college-name"></h2>
+      <dl class="modal-details">
+        <div><dt>Location</dt><dd id="modal-location"></dd></div>
+        <div><dt>Course type</dt><dd id="modal-course-type"></dd></div>
+        <div><dt>Fees range</dt><dd id="modal-fees"></dd></div>
+        <div><dt>Established year</dt><dd id="modal-established"></dd></div>
+        <div><dt>Ranking</dt><dd id="modal-ranking"></dd></div>
+        <div><dt>Website</dt><dd><a id="modal-website" href="#" target="_blank" rel="noopener noreferrer"></a></dd></div>
+      </dl>
+    </div>
+  </div>
 
   <footer class="site-footer">
     <div class="container">
