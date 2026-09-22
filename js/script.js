@@ -4,6 +4,7 @@ const applyFiltersButton = document.querySelector('.apply-filters');
 const searchForm = document.querySelector('.search-bar');
 const searchInput = document.querySelector('#college-search');
 const searchButton = searchForm.querySelector('button');
+const noResultsMessage = document.querySelector('#no-results');
 const collegeModal = document.querySelector('#college-modal');
 const modalCloseButton = document.querySelector('.college-modal-close');
 
@@ -22,6 +23,7 @@ const updateVisibleCards = () => {
   const selectedLocation = filterForm.elements.location.value;
   const selectedCourseType = filterForm.elements['course-type'].value;
   const selectedFeesRange = filterForm.elements['fees-range'].value;
+  let visibleCardCount = 0;
 
   collegeCards.forEach((card) => {
     const cardText = [
@@ -33,8 +35,14 @@ const updateVisibleCards = () => {
     const matchesLocation = !selectedLocation || card.dataset.location === selectedLocation;
     const matchesCourseType = !selectedCourseType || card.dataset.courseType === selectedCourseType;
     const matchesFees = !selectedFeesRange || card.dataset.feesRange === selectedFeesRange;
-    card.hidden = !(matchesSearch && matchesLocation && matchesCourseType && matchesFees);
+    const isVisible = matchesSearch && matchesLocation && matchesCourseType && matchesFees;
+    card.hidden = !isVisible;
+    if (isVisible) {
+      visibleCardCount += 1;
+    }
   });
+
+  noResultsMessage.hidden = visibleCardCount > 0;
 };
 
 applyFiltersButton.addEventListener('click', updateVisibleCards);

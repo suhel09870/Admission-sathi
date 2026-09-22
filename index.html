@@ -183,6 +183,14 @@
       display: none !important;
     }
 
+    .no-results {
+      grid-column: 1 / -1;
+      padding: 48px 24px;
+      color: #6b7280;
+      text-align: center;
+      font-size: 1rem;
+    }
+
     .college-modal[hidden] {
       display: none;
     }
@@ -509,6 +517,8 @@
           </dl>
           <button class="view-details" type="button">View Details</button>
         </article>
+
+        <p class="no-results" id="no-results" role="status" hidden>No colleges match your search. Try adjusting your filters or search term.</p>
       </div>
     </section>
   </main>
