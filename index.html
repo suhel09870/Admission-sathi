@@ -403,8 +403,8 @@
     </header>
 
     <form class="search-bar" role="search">
-      <input type="search" placeholder="Search by college, course, or location" aria-label="Search colleges">
-      <button type="submit">Search</button>
+      <input id="college-search" type="search" placeholder="Search by college, course, or location" aria-label="Search colleges">
+      <button type="button">Search</button>
     </form>
 
     <form class="filters-bar" id="college-filters">
@@ -450,7 +450,7 @@
     <section class="college-listing" aria-labelledby="college-listing-title">
       <h2 id="college-listing-title">Featured Colleges</h2>
       <div class="college-grid">
-        <article class="college-card" data-location="Delhi" data-course-type="Engineering" data-established="1961" data-ranking="#4 Engineering Institute in India" data-website="https://home.iitd.ac.in">
+        <article class="college-card" data-location="Delhi" data-course-type="Engineering" data-fees-range="under-5" data-established="1961" data-ranking="#4 Engineering Institute in India" data-website="https://home.iitd.ac.in">
           <h3>Indian Institute of Technology Delhi</h3>
           <dl class="college-info">
             <div><dt>Location</dt><dd>New Delhi</dd></div>
@@ -460,7 +460,7 @@
           <button class="view-details" type="button">View Details</button>
         </article>
 
-        <article class="college-card" data-location="Vellore" data-course-type="Medical" data-established="1942" data-ranking="#1 Medical College in India" data-website="https://www.cmch-vellore.edu">
+        <article class="college-card" data-location="Vellore" data-course-type="Medical" data-fees-range="15-25" data-established="1942" data-ranking="#1 Medical College in India" data-website="https://www.cmch-vellore.edu">
           <h3>Christian Medical College</h3>
           <dl class="college-info">
             <div><dt>Location</dt><dd>Vellore</dd></div>
@@ -470,7 +470,7 @@
           <button class="view-details" type="button">View Details</button>
         </article>
 
-        <article class="college-card" data-location="Mumbai" data-course-type="Arts &amp; Commerce" data-established="1869" data-ranking="Top 10 Arts Colleges in India" data-website="https://xaviers.ac">
+        <article class="college-card" data-location="Mumbai" data-course-type="Arts &amp; Commerce" data-fees-range="under-5" data-established="1869" data-ranking="Top 10 Arts Colleges in India" data-website="https://xaviers.ac">
           <h3>St. Xavier's College</h3>
           <dl class="college-info">
             <div><dt>Location</dt><dd>Mumbai</dd></div>
@@ -480,7 +480,7 @@
           <button class="view-details" type="button">View Details</button>
         </article>
 
-        <article class="college-card" data-location="Bengaluru" data-course-type="Design" data-established="1986" data-ranking="Top 5 Design Institutes in India" data-website="https://www.nift.ac.in">
+        <article class="college-card" data-location="Bengaluru" data-course-type="Design" data-fees-range="5-15" data-established="1986" data-ranking="Top 5 Design Institutes in India" data-website="https://www.nift.ac.in">
           <h3>National Institute of Fashion Technology</h3>
           <dl class="college-info">
             <div><dt>Location</dt><dd>Bengaluru</dd></div>
@@ -490,7 +490,7 @@
           <button class="view-details" type="button">View Details</button>
         </article>
 
-        <article class="college-card" data-location="Ahmedabad" data-course-type="Management" data-established="1961" data-ranking="#1 Management Institute in India" data-website="https://www.iima.ac.in">
+        <article class="college-card" data-location="Ahmedabad" data-course-type="Management" data-fees-range="15-25" data-established="1961" data-ranking="#1 Management Institute in India" data-website="https://www.iima.ac.in">
           <h3>Indian Institute of Management Ahmedabad</h3>
           <dl class="college-info">
             <div><dt>Location</dt><dd>Ahmedabad</dd></div>
@@ -500,7 +500,7 @@
           <button class="view-details" type="button">View Details</button>
         </article>
 
-        <article class="college-card" data-location="Pilani" data-course-type="Engineering" data-established="1964" data-ranking="Top 20 Engineering Institutes in India" data-website="https://www.bits-pilani.ac.in">
+        <article class="college-card" data-location="Pilani" data-course-type="Engineering" data-fees-range="5-15" data-established="1964" data-ranking="Top 20 Engineering Institutes in India" data-website="https://www.bits-pilani.ac.in">
           <h3>Birla Institute of Technology and Science</h3>
           <dl class="college-info">
             <div><dt>Location</dt><dd>Pilani</dd></div>

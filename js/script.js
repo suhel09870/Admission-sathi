@@ -1,6 +1,9 @@
 const filterForm = document.querySelector('#college-filters');
 const collegeCards = document.querySelectorAll('.college-card');
 const applyFiltersButton = document.querySelector('.apply-filters');
+const searchForm = document.querySelector('.search-bar');
+const searchInput = document.querySelector('#college-search');
+const searchButton = searchForm.querySelector('button');
 const collegeModal = document.querySelector('#college-modal');
 const modalCloseButton = document.querySelector('.college-modal-close');
 
@@ -14,21 +17,36 @@ const modalFields = {
   website: document.querySelector('#modal-website')
 };
 
-applyFiltersButton.addEventListener('click', () => {
+const updateVisibleCards = () => {
+  const searchTerm = searchInput.value.trim().toLowerCase();
   const selectedLocation = filterForm.elements.location.value;
   const selectedCourseType = filterForm.elements['course-type'].value;
+  const selectedFeesRange = filterForm.elements['fees-range'].value;
 
   collegeCards.forEach((card) => {
+    const cardText = [
+      card.querySelector('h3').textContent,
+      card.dataset.location,
+      card.dataset.courseType
+    ].join(' ').toLowerCase();
+    const matchesSearch = !searchTerm || cardText.includes(searchTerm);
     const matchesLocation = !selectedLocation || card.dataset.location === selectedLocation;
     const matchesCourseType = !selectedCourseType || card.dataset.courseType === selectedCourseType;
-    card.hidden = !(matchesLocation && matchesCourseType);
+    const matchesFees = !selectedFeesRange || card.dataset.feesRange === selectedFeesRange;
+    card.hidden = !(matchesSearch && matchesLocation && matchesCourseType && matchesFees);
   });
+};
+
+applyFiltersButton.addEventListener('click', updateVisibleCards);
+searchButton.addEventListener('click', updateVisibleCards);
+searchForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  updateVisibleCards();
 });
 
 filterForm.addEventListener('reset', () => {
-  collegeCards.forEach((card) => {
-    card.hidden = false;
-  });
+  searchInput.value = '';
+  requestAnimationFrame(updateVisibleCards);
 });
 
 const closeCollegeModal = () => {
