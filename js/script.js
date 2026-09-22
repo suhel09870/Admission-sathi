@@ -1,10 +1,16 @@
 const colleges = [
-  { name: 'Indian Institute of Technology Delhi', city: 'New Delhi', state: 'Delhi', courses: ['Engineering'], category: 'Public Institute', fees: '₹2.5L - ₹10L', feesRange: 'under-5', eligibility: '12th with PCM and JEE Advanced', admissionStatus: 'Applications open', description: 'A leading public institute offering undergraduate and postgraduate engineering programmes.', established: '1961', ranking: '#4 Engineering Institute in India', website: 'https://home.iitd.ac.in', applicationUrl: null },
-  { name: 'Christian Medical College', city: 'Vellore', state: 'Tamil Nadu', courses: ['Medical'], category: 'Private College', fees: '₹5L - ₹25L', feesRange: '15-25', eligibility: '12th with PCB and NEET qualification', admissionStatus: 'Admissions opening soon', description: 'A respected medical college and teaching hospital with comprehensive healthcare programmes.', established: '1942', ranking: '#1 Medical College in India', website: 'https://www.cmch-vellore.edu', applicationUrl: null },
-  { name: "St. Xavier's College", city: 'Mumbai', state: 'Maharashtra', courses: ['Arts & Commerce'], category: 'Autonomous College', fees: '₹45K - ₹1.5L', feesRange: 'under-5', eligibility: '12th from a recognised board', admissionStatus: 'Applications open', description: 'An autonomous college known for undergraduate arts, commerce, and science education.', established: '1869', ranking: 'Top 10 Arts Colleges in India', website: 'https://xaviers.ac', applicationUrl: null },
-  { name: 'National Institute of Fashion Technology', city: 'Bengaluru', state: 'Karnataka', courses: ['Design'], category: 'Public Institute', fees: '₹3L - ₹12L', feesRange: '5-15', eligibility: '12th from a recognised board and NIFT entrance exam', admissionStatus: 'Entrance registration open', description: 'A specialised institute for fashion design, technology, management, and related creative fields.', established: '1986', ranking: 'Top 5 Design Institutes in India', website: 'https://www.nift.ac.in', applicationUrl: null },
-  { name: 'Indian Institute of Management Ahmedabad', city: 'Ahmedabad', state: 'Gujarat', courses: ['Management'], category: 'Public Institute', fees: '₹12L - ₹25L', feesRange: '15-25', eligibility: 'Graduation with CAT qualification', admissionStatus: 'Applications opening soon', description: 'A premier management institute offering postgraduate and doctoral business programmes.', established: '1961', ranking: '#1 Management Institute in India', website: 'https://www.iima.ac.in', applicationUrl: null },
-  { name: 'Birla Institute of Technology and Science', city: 'Pilani', state: 'Rajasthan', courses: ['Engineering'], category: 'Private Institute', fees: '₹8L - ₹18L', feesRange: '5-15', eligibility: '12th with PCM and BITSAT qualification', admissionStatus: 'Applications open', description: 'A private deemed university with flexible, research-focused programmes in engineering and sciences.', established: '1964', ranking: 'Top 20 Engineering Institutes in India', website: 'https://www.bits-pilani.ac.in', applicationUrl: null }
+  { name: 'Demo City College of Computer Studies', city: 'Chandausi', state: 'Uttar Pradesh', courses: [{ code: 'BCA', name: 'Bachelor of Computer Applications' }, { code: 'MCA', name: 'Master of Computer Applications' }], category: 'Private College', fees: '₹65K - ₹1.4L', feesRange: 'under-5', eligibility: '12th from a recognised board for BCA; graduation for MCA', admissionStatus: 'Applications open', description: 'Sample record for testing computer applications searches and college details.', applicationUrl: null },
+  { name: 'Demo Institute of Digital Learning', city: 'Pune', state: 'Maharashtra', courses: [{ code: 'BCA', name: 'Bachelor of Computer Applications' }, { code: 'BBA', name: 'Bachelor of Business Administration' }], category: 'Autonomous College', fees: '₹1.2L - ₹2.8L', feesRange: 'under-5', eligibility: '12th from a recognised board', admissionStatus: 'Admissions opening soon', description: 'Sample record with BCA and BBA for testing multi-course filters.', applicationUrl: null },
+  { name: 'Demo Arts and Commerce College', city: 'Mumbai', state: 'Maharashtra', courses: [{ code: 'BA', name: 'Bachelor of Arts' }, { code: 'B.Com', name: 'Bachelor of Commerce' }], category: 'Government College', fees: '₹35K - ₹90K', feesRange: 'under-5', eligibility: '12th from a recognised board', admissionStatus: 'Applications open', description: 'Sample undergraduate arts and commerce college record.', applicationUrl: null },
+  { name: 'Demo Science Academy', city: 'Bengaluru', state: 'Karnataka', courses: [{ code: 'B.Sc', name: 'Bachelor of Science' }, { code: 'M.Sc', name: 'Master of Science' }], category: 'Private Institute', fees: '₹2.5L - ₹6L', feesRange: '5-15', eligibility: '12th with relevant subjects for B.Sc; graduation for M.Sc', admissionStatus: 'Applications closed', description: 'Sample science-focused institute record for filter testing.', applicationUrl: null },
+  { name: 'Demo School of Business', city: 'Ahmedabad', state: 'Gujarat', courses: [{ code: 'BBA', name: 'Bachelor of Business Administration' }, { code: 'BBM', name: 'Bachelor of Business Management' }], category: 'Private College', fees: '₹4L - ₹8L', feesRange: '5-15', eligibility: '12th from a recognised board', admissionStatus: 'Applications open', description: 'Sample business college record with mid-range fees.', applicationUrl: null },
+  { name: 'Demo College of Technology', city: 'Jaipur', state: 'Rajasthan', courses: [{ code: 'B.Tech', name: 'Bachelor of Technology' }], category: 'Public Institute', fees: '₹6L - ₹14L', feesRange: '5-15', eligibility: '12th with PCM and an applicable entrance qualification', admissionStatus: 'Admissions opening soon', description: 'Sample technology college record for engineering course searches.', applicationUrl: null },
+  { name: 'Demo Media and Communication College', city: 'Kolkata', state: 'West Bengal', courses: [{ code: 'BJMC', name: 'Bachelor of Journalism and Mass Communication' }, { code: 'BA', name: 'Bachelor of Arts' }], category: 'Autonomous College', fees: '₹1.8L - ₹4.5L', feesRange: 'under-5', eligibility: '12th from a recognised board', admissionStatus: 'Applications open', description: 'Sample media college record for full course name searches.', applicationUrl: null },
+  { name: 'Demo Law and Public Policy Institute', city: 'New Delhi', state: 'Delhi', courses: [{ code: 'LLB', name: 'Bachelor of Laws' }, { code: 'MA', name: 'Master of Arts' }], category: 'Public Institute', fees: '₹5L - ₹16L', feesRange: '15-25', eligibility: 'Graduation for LLB and MA programmes', admissionStatus: 'Applications closed', description: 'Sample law and public policy institute record.', applicationUrl: null },
+  { name: 'Demo School of Commerce', city: 'Chennai', state: 'Tamil Nadu', courses: [{ code: 'B.Com', name: 'Bachelor of Commerce' }, { code: 'M.Com', name: 'Master of Commerce' }], category: 'Private College', fees: '₹7L - ₹18L', feesRange: '5-15', eligibility: '12th for B.Com; graduation for M.Com', admissionStatus: 'Applications open', description: 'Sample commerce college record with postgraduate options.', applicationUrl: null },
+  { name: 'Demo College of Liberal Studies', city: 'Kochi', state: 'Kerala', courses: [{ code: 'BA', name: 'Bachelor of Arts' }, { code: 'MA', name: 'Master of Arts' }], category: 'Government College', fees: '₹2.2L - ₹5.5L', feesRange: '5-15', eligibility: '12th for BA; graduation for MA', admissionStatus: 'Admissions opening soon', description: 'Sample liberal studies college record for city and course testing.', applicationUrl: null },
+  { name: 'Demo Advanced Computing Institute', city: 'Hyderabad', state: 'Telangana', courses: [{ code: 'MCA', name: 'Master of Computer Applications' }, { code: 'B.Tech', name: 'Bachelor of Technology' }], category: 'Private Institute', fees: '₹16L - ₹28L', feesRange: 'above-25', eligibility: 'Graduation for MCA; 12th with PCM for B.Tech', admissionStatus: 'Applications open', description: 'Sample advanced computing institute record with a higher fee range.', applicationUrl: null },
+  { name: 'Demo Management and Research Centre', city: 'Indore', state: 'Madhya Pradesh', courses: [{ code: 'BBM', name: 'Bachelor of Business Management' }, { code: 'BBA', name: 'Bachelor of Business Administration' }], category: 'Deemed University', fees: '₹12L - ₹24L', feesRange: '15-25', eligibility: '12th from a recognised board', admissionStatus: 'Admissions opening soon', description: 'Sample management record for category, fees, and course filters.', applicationUrl: null }
 ];
 
 const filterForm = document.querySelector('#college-filters');
@@ -28,18 +34,22 @@ const modalFields = {
 
 const getAdmissionStatusClass = (status) => {
   const normalizedStatus = status.toLowerCase();
-  if (normalizedStatus.includes('open')) return 'status-open';
   if (normalizedStatus.includes('soon')) return 'status-coming-soon';
+  if (normalizedStatus.includes('open')) return 'status-open';
   return 'status-closed';
 };
+
+const getCourseLabel = (course) => `${course.code} — ${course.name}`;
+const getCourseSearchText = (course) => `${course.code} ${course.name}`;
+const getCollegeCoursesText = (college) => college.courses.map(getCourseLabel).join(', ');
 
 const openCollegeModal = (college) => {
   modalFields.name.textContent = college.name;
   const location = `${college.city}, ${college.state}`;
   modalFields.locationHeading.textContent = location;
   modalFields.location.textContent = location;
-  modalFields.courseType.textContent = college.courses.join(', ');
-  modalFields.courses.textContent = college.courses.join(', ');
+  modalFields.courseType.textContent = getCollegeCoursesText(college);
+  modalFields.courses.textContent = getCollegeCoursesText(college);
   modalFields.category.textContent = college.category;
   modalFields.fees.textContent = college.fees;
   modalFields.eligibility.textContent = college.eligibility;
@@ -56,7 +66,7 @@ const openCollegeModal = (college) => {
 const createCollegeCard = (college) => {
   const card = document.createElement('article');
   card.className = 'college-card';
-  card.innerHTML = `<h3>${college.name}</h3><dl class="college-info"><div><dt>Location</dt><dd>${college.city}, ${college.state}</dd></div><div><dt>Course type</dt><dd>${college.courses.join(', ')}</dd></div><div><dt>Fees range</dt><dd>${college.fees}</dd></div></dl><button class="view-details" type="button">View Details</button>`;
+  card.innerHTML = `<h3>${college.name}</h3><dl class="college-info"><div><dt>Location</dt><dd>${college.city}, ${college.state}</dd></div><div><dt>Course</dt><dd>${getCollegeCoursesText(college)}</dd></div><div><dt>Fees</dt><dd>${college.fees}</dd></div><div><dt>Admission status</dt><dd class="admission-status ${getAdmissionStatusClass(college.admissionStatus)}">${college.admissionStatus}</dd></div></dl><button class="view-details" type="button">View Details</button>`;
   card.querySelector('.view-details').addEventListener('click', () => openCollegeModal(college));
   return card;
 };
@@ -67,10 +77,14 @@ const renderCollegeCards = (visibleColleges) => {
 };
 
 const populateFilterOptions = () => {
-  const filters = [[filterForm.elements.location, 'state', 'All Locations'], [filterForm.elements['course-type'], 'courses', 'All Courses'], [filterForm.elements.category, 'category', 'All College Types']];
+  const filters = [[filterForm.elements.location, 'locations', 'All Locations'], [filterForm.elements['course-type'], 'courses', 'All Courses'], [filterForm.elements.category, 'category', 'All College Types']];
   filters.forEach(([select, field, label]) => {
     select.replaceChildren(new Option(label, ''));
-    const values = colleges.flatMap((college) => Array.isArray(college[field]) ? college[field] : [college[field]]);
+    const values = colleges.flatMap((college) => {
+      if (field === 'locations') return [college.city, college.state];
+      if (field === 'courses') return college.courses.map(getCourseLabel);
+      return [college[field]];
+    });
     [...new Set(values)].sort().forEach((value) => select.add(new Option(value, value)));
   });
 };
@@ -82,8 +96,8 @@ const updateVisibleCards = () => {
   const selectedCategory = filterForm.elements.category.value;
   const selectedFeesRange = filterForm.elements['fees-range'].value;
   const visibleColleges = colleges.filter((college) => {
-    const searchableText = [college.name, college.city, college.state, ...college.courses].join(' ').toLowerCase();
-    return (!searchTerm || searchableText.includes(searchTerm)) && (!selectedLocation || [college.city, college.state].includes(selectedLocation)) && (!selectedCourseType || college.courses.includes(selectedCourseType)) && (!selectedCategory || college.category === selectedCategory) && (!selectedFeesRange || college.feesRange === selectedFeesRange);
+    const searchableText = [college.name, college.city, college.state, ...college.courses.map(getCourseSearchText)].join(' ').toLowerCase();
+    return (!searchTerm || searchableText.includes(searchTerm)) && (!selectedLocation || [college.city, college.state].includes(selectedLocation)) && (!selectedCourseType || college.courses.some((course) => getCourseLabel(course) === selectedCourseType)) && (!selectedCategory || college.category === selectedCategory) && (!selectedFeesRange || college.feesRange === selectedFeesRange);
   });
   renderCollegeCards(visibleColleges);
   noResultsMessage.hidden = visibleColleges.length > 0;
@@ -274,7 +288,7 @@ modalApplyButton.addEventListener('click', () => {
     window.open(applicationUrl, '_blank', 'noopener,noreferrer');
     return;
   }
-  modalApplyMessage.textContent = 'Application details will be available here soon.';
+  modalApplyMessage.textContent = 'Application link will be available soon.';
   modalApplyMessage.hidden = false;
 });
 collegeModal.addEventListener('click', (event) => { if (event.target === collegeModal) closeCollegeModal(); });
