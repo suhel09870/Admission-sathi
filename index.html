@@ -128,9 +128,8 @@
     }
 
     .filters-bar button {
-      min-height: 46px;
-      padding: 0 18px;
-      border: 0;
+      width: 100%;
+      padding: 14px;
       border-radius: 12px;
       font: inherit;
       font-weight: 600;
@@ -138,6 +137,7 @@
     }
 
     .apply-filters {
+      border: 0;
       background: #2563eb;
       color: #fff;
     }
@@ -147,14 +147,13 @@
     }
 
     .reset-filters {
-      border: 1px solid #dbe2ea !important;
+      border: 1px solid #2563eb;
       background: #fff;
-      color: #374151;
+      color: #2563eb;
     }
 
     .reset-filters:hover {
-      border-color: #2563eb !important;
-      color: #2563eb;
+      background: #eff6ff;
     }
 
     .college-listing h2 {
@@ -319,7 +318,7 @@
       <button type="submit">Search</button>
     </form>
 
-    <form class="filters-bar" id="college-filters" ...></form>
+    <form class="filters-bar" id="college-filters">
       <div class="filter-field">
         <label for="location-filter">Location</label>
         <select id="location-filter" name="location">
@@ -332,9 +331,7 @@
         </select>
       </div>
 
-      <div class=
-   
-      "filter-field">
+      <div class="filter-field">
         <label for="course-filter">Course Type</label>
         <select id="course-filter" name="course-type">
           <option value="Engineering">Engineering</option>

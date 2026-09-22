@@ -1,9 +1,8 @@
 const filterForm = document.querySelector('#college-filters');
 const collegeCards = document.querySelectorAll('.college-card');
+const applyFiltersButton = document.querySelector('.apply-filters');
 
-filterForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-
+applyFiltersButton.addEventListener('click', () => {
   const selectedLocation = filterForm.elements.location.value;
   const selectedCourseType = filterForm.elements['course-type'].value;
 
