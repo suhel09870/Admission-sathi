@@ -4,6 +4,8 @@ const applyFiltersButton = document.querySelector('.apply-filters');
 const searchForm = document.querySelector('.search-bar');
 const searchInput = document.querySelector('#college-search');
 const searchButton = searchForm.querySelector('button');
+const homeSearchForm = document.querySelector('#home-search');
+const homeSearchInput = document.querySelector('#home-search-input');
 const noResultsMessage = document.querySelector('#no-results');
 const collegeModal = document.querySelector('#college-modal');
 const modalCloseButton = document.querySelector('.college-modal-close');
@@ -50,6 +52,13 @@ searchButton.addEventListener('click', updateVisibleCards);
 searchForm.addEventListener('submit', (event) => {
   event.preventDefault();
   updateVisibleCards();
+});
+
+homeSearchForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  searchInput.value = homeSearchInput.value;
+  searchButton.click();
+  document.querySelector('#college-filters').scrollIntoView({ behavior: 'smooth' });
 });
 
 filterForm.addEventListener('reset', () => {

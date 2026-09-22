@@ -14,6 +14,7 @@
       background: #f5f7fb;
       color: #1f2937;
       font-family: Arial, sans-serif;
+      scroll-behavior: smooth;
     }
 
     .page-container {
@@ -25,6 +26,121 @@
     .page-header {
       margin-bottom: 28px;
       text-align: center;
+    }
+
+    .home-section {
+      margin-bottom: 56px;
+      padding: clamp(32px, 7vw, 72px) clamp(20px, 6vw, 72px);
+      border-radius: 20px;
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      text-align: center;
+    }
+
+    .home-section h1 {
+      max-width: 680px;
+      margin: 0 auto 14px;
+      color: #1e3a8a;
+      font-size: clamp(2rem, 8vw, 3.6rem);
+      line-height: 1.08;
+    }
+
+    .home-subtitle {
+      max-width: 620px;
+      margin: 0 auto 28px;
+      color: #475569;
+      font-size: clamp(1rem, 3vw, 1.15rem);
+      line-height: 1.6;
+    }
+
+    .home-search {
+      display: flex;
+      gap: 10px;
+      max-width: 650px;
+      margin: 0 auto 30px;
+      padding: 6px;
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.12);
+    }
+
+    .home-search input {
+      width: 100%;
+      min-width: 0;
+      padding: 13px 16px;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+      color: #1f2937;
+      font: inherit;
+      outline: none;
+    }
+
+    .home-search input:focus {
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .home-search button,
+    .explore-colleges {
+      border: 0;
+      border-radius: 10px;
+      background: #2563eb;
+      color: #fff;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 600;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .home-search button {
+      padding: 0 24px;
+      white-space: nowrap;
+    }
+
+    .home-search button:hover,
+    .explore-colleges:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    .explore-colleges {
+      display: inline-block;
+      padding: 13px 24px;
+      text-decoration: none;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      max-width: 960px;
+      margin: 0 auto 28px;
+    }
+
+    .feature-card {
+      padding: 22px 18px;
+      border: 1px solid #e8edf3;
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 5px 16px rgba(31, 41, 55, 0.06);
+      text-align: left;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(31, 41, 55, 0.1);
+    }
+
+    .feature-card h2 {
+      margin: 0 0 10px;
+      color: #111827;
+      font-size: 1.08rem;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: #6b7280;
+      line-height: 1.55;
     }
 
     .page-header h1 {
@@ -391,6 +507,28 @@
         min-height: 46px;
       }
 
+      .home-section {
+        margin-bottom: 40px;
+        border-radius: 16px;
+      }
+
+      .home-search {
+        flex-direction: column;
+        padding: 8px;
+      }
+
+      .home-search input {
+        min-height: 46px;
+      }
+
+      .home-search button {
+        min-height: 46px;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
       .filters-bar {
         grid-template-columns: 1fr;
         align-items: stretch;
@@ -409,6 +547,33 @@
       <h1>Find Your Right College</h1>
       <p>Explore colleges and discover the right path for your future.</p>
     </header>
+
+    <section class="home-section" aria-labelledby="home-title">
+      <h1 id="home-title">Find Your Perfect College</h1>
+      <p class="home-subtitle">College, course, fees aur admission information — sab kuch ek jagah.</p>
+
+      <form class="home-search" id="home-search" role="search">
+        <input id="home-search-input" type="search" placeholder="Search college or course..." aria-label="Search college or course">
+        <button type="submit">Search</button>
+      </form>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <h2>🏫 Find Colleges</h2>
+          <p>Apne course aur location ke according colleges find karein.</p>
+        </article>
+        <article class="feature-card">
+          <h2>💰 Check Fees</h2>
+          <p>College ki fees aur admission information easily check karein.</p>
+        </article>
+        <article class="feature-card">
+          <h2>📢 Admission Updates</h2>
+          <p>Important admission dates aur updates ek jagah paayein.</p>
+        </article>
+      </div>
+
+      <a class="explore-colleges" href="#college-filters">Explore Colleges</a>
+    </section>
 
     <form class="search-bar" role="search">
       <input id="college-search" type="search" placeholder="Search by college, course, or location" aria-label="Search colleges">
