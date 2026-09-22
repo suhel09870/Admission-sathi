@@ -37,20 +37,20 @@ const openCollegeModal = (college) => {
   modalFields.website.textContent = college.website;
   modalFields.website.href = college.website;
   collegeModal.hidden = false;
+  document.body.classList.add('modal-open');
 };
 
-const createCollegeCard = (college, index) => {
+const createCollegeCard = (college) => {
   const card = document.createElement('article');
   card.className = 'college-card';
-  card.dataset.index = index;
   card.innerHTML = `<h3>${college.name}</h3><dl class="college-info"><div><dt>Location</dt><dd>${college.city}, ${college.state}</dd></div><div><dt>Course type</dt><dd>${college.course}</dd></div><div><dt>Fees range</dt><dd>${college.fees}</dd></div></dl><button class="view-details" type="button">View Details</button>`;
   card.querySelector('.view-details').addEventListener('click', () => openCollegeModal(college));
   return card;
 };
 
-const renderCollegeCards = () => {
+const renderCollegeCards = (visibleColleges) => {
   collegeGrid.querySelectorAll('.college-card').forEach((card) => card.remove());
-  colleges.forEach((college, index) => collegeGrid.insertBefore(createCollegeCard(college, index), noResultsMessage));
+  visibleColleges.forEach((college) => collegeGrid.insertBefore(createCollegeCard(college), noResultsMessage));
 };
 
 const populateFilterOptions = () => {
@@ -67,16 +67,12 @@ const updateVisibleCards = () => {
   const selectedCourseType = filterForm.elements['course-type'].value;
   const selectedCategory = filterForm.elements.category.value;
   const selectedFeesRange = filterForm.elements['fees-range'].value;
-  let visibleCardCount = 0;
-
-  collegeGrid.querySelectorAll('.college-card').forEach((card) => {
-    const college = colleges[card.dataset.index];
-    const searchableText = [college.name, college.city, college.course].join(' ').toLowerCase();
-    const isVisible = (!searchTerm || searchableText.includes(searchTerm)) && (!selectedLocation || college.state === selectedLocation) && (!selectedCourseType || college.course === selectedCourseType) && (!selectedCategory || college.category === selectedCategory) && (!selectedFeesRange || college.feesRange === selectedFeesRange);
-    card.hidden = !isVisible;
-    if (isVisible) visibleCardCount += 1;
+  const visibleColleges = colleges.filter((college) => {
+    const searchableText = [college.name, college.city, college.state, college.course].join(' ').toLowerCase();
+    return (!searchTerm || searchableText.includes(searchTerm)) && (!selectedLocation || [college.city, college.state].includes(selectedLocation)) && (!selectedCourseType || college.course === selectedCourseType) && (!selectedCategory || college.category === selectedCategory) && (!selectedFeesRange || college.feesRange === selectedFeesRange);
   });
-  noResultsMessage.hidden = visibleCardCount > 0;
+  renderCollegeCards(visibleColleges);
+  noResultsMessage.hidden = visibleColleges.length > 0;
 };
 
 applyFiltersButton.addEventListener('click', updateVisibleCards);
@@ -144,11 +140,13 @@ const setAccountModalState = (state) => {
 const openAccountModal = (state = 'login') => {
   setAccountModalState(state);
   accountModal.hidden = false;
+  document.body.classList.add('modal-open');
   (state === 'signup' ? signupForm : loginForm).querySelector('input').focus();
 };
 
 const closeAccountModal = () => {
   accountModal.hidden = true;
+  if (profileModal.hidden && collegeModal.hidden) document.body.classList.remove('modal-open');
 };
 
 const openProfileModal = () => {
@@ -158,11 +156,13 @@ const openProfileModal = () => {
   profileFields.email.textContent = profile.email;
   profileFields.mobile.textContent = profile.mobile;
   profileModal.hidden = false;
+  document.body.classList.add('modal-open');
   profileModalCloseButton.focus();
 };
 
 const closeProfileModal = () => {
   profileModal.hidden = true;
+  if (accountModal.hidden && collegeModal.hidden) document.body.classList.remove('modal-open');
 };
 
 const updateAccountButton = () => {
@@ -248,7 +248,10 @@ logoutButton.addEventListener('click', () => {
   closeProfileModal();
 });
 
-const closeCollegeModal = () => { collegeModal.hidden = true; };
+const closeCollegeModal = () => {
+  collegeModal.hidden = true;
+  if (accountModal.hidden && profileModal.hidden) document.body.classList.remove('modal-open');
+};
 modalCloseButton.addEventListener('click', closeCollegeModal);
 collegeModal.addEventListener('click', (event) => { if (event.target === collegeModal) closeCollegeModal(); });
 document.addEventListener('keydown', (event) => {
@@ -258,7 +261,6 @@ document.addEventListener('keydown', (event) => {
   else if (!profileModal.hidden) closeProfileModal();
 });
 
-renderCollegeCards();
 populateFilterOptions();
 updateVisibleCards();
 updateAccountButton();

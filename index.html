@@ -17,6 +17,10 @@
       scroll-behavior: smooth;
     }
 
+    body.modal-open {
+      overflow: hidden;
+    }
+
     .page-container {
       width: min(1120px, calc(100% - 32px));
       margin: 0 auto;
@@ -379,8 +383,15 @@
       background: rgba(17, 24, 39, 0.68);
     }
 
+    .account-modal,
+    .profile-modal,
+    .college-modal {
+      animation: modal-fade-in 0.2s ease-out;
+    }
+
     .account-modal-content,
-    .profile-modal-content {
+    .profile-modal-content,
+    .college-modal-content {
       position: relative;
       width: min(100%, 460px);
       max-height: calc(100vh - 40px);
@@ -389,6 +400,27 @@
       border-radius: 12px;
       background: #fff;
       box-shadow: 0 20px 50px rgba(17, 24, 39, 0.25);
+      animation: modal-scale-in 0.24s ease-out;
+    }
+
+    @keyframes modal-fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes modal-scale-in {
+      from { opacity: 0; transform: translateY(8px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    #login-state,
+    #signup-state {
+      animation: auth-panel-in 0.2s ease-out;
+    }
+
+    @keyframes auth-panel-in {
+      from { opacity: 0; transform: translateX(8px); }
+      to { opacity: 1; transform: translateX(0); }
     }
 
     .account-modal h2,
@@ -436,15 +468,19 @@
 
     .account-field input {
       width: 100%;
+      min-height: 46px;
       padding: 12px 14px;
       border: 1px solid #dbe2ea;
       border-radius: 10px;
+      background: #f8fafc;
       color: #1f2937;
       font: inherit;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
     }
 
     .account-field input:focus {
       border-color: #2563eb;
+      background: #fff;
       outline: none;
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
     }
@@ -736,6 +772,20 @@
 
       .college-grid {
         grid-template-columns: 1fr;
+      }
+
+      .account-modal,
+      .profile-modal,
+      .college-modal {
+        align-items: start;
+        padding: 12px;
+      }
+
+      .account-modal-content,
+      .profile-modal-content,
+      .college-modal-content {
+        max-height: calc(100vh - 24px);
+        padding: 24px 20px;
       }
     }
   </style>
