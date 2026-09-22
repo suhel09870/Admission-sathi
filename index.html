@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admission Saathi | Find Your College</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #f5f7fb;
+      color: #1f2937;
+      font-family: Arial, sans-serif;
+    }
+
+    .page-container {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 48px 0 64px;
+    }
+
+    .page-header {
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .page-header h1 {
+      margin: 0 0 8px;
+      color: #111827;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+    }
+
+    .page-header p {
+      margin: 0;
+      color: #6b7280;
+      font-size: 1rem;
+    }
+
+    .search-bar {
+      display: flex;
+      gap: 12px;
+      max-width: 720px;
+      margin: 0 auto 40px;
+    }
+
+    .search-bar input {
+      width: 100%;
+      min-width: 0;
+      padding: 14px 18px;
+      border: 1px solid #dbe2ea;
+      border-radius: 12px;
+      background: #fff;
+      color: #1f2937;
+      font: inherit;
+      outline: none;
+    }
+
+    .search-bar input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .search-bar button,
+    .view-details {
+      border: 0;
+      border-radius: 12px;
+      background: #2563eb;
+      color: #fff;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 600;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .search-bar button {
+      padding: 0 24px;
+      white-space: nowrap;
+    }
+
+    .search-bar button:hover,
+    .view-details:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    .college-listing h2 {
+      margin: 0 0 18px;
+      color: #111827;
+      font-size: 1.4rem;
+    }
+
+    .college-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .college-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 248px;
+      padding: 22px;
+      border: 1px solid #e8edf3;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 5px 16px rgba(31, 41, 55, 0.06);
+    }
+
+    .college-card h3 {
+      margin: 0 0 14px;
+      color: #111827;
+      font-size: 1.12rem;
+      line-height: 1.35;
+    }
+
+    .college-info {
+      display: grid;
+      gap: 10px;
+      margin: 0 0 20px;
+    }
+
+    .college-info div {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: #6b7280;
+      font-size: 0.92rem;
+    }
+
+    .college-info dt {
+      font-weight: 600;
+    }
+
+    .college-info dd {
+      margin: 0;
+      color: #374151;
+      text-align: right;
+    }
+
+    .view-details {
+      width: 100%;
+      margin-top: auto;
+      padding: 11px 16px;
+    }
+
+    @media (max-width: 760px) {
+      .college-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 520px) {
+      .page-container {
+        width: min(100% - 24px, 420px);
+        padding-top: 32px;
+      }
+
+      .search-bar {
+        flex-direction: column;
+        margin-bottom: 32px;
+      }
+
+      .search-bar button {
+        min-height: 46px;
+      }
+
+      .college-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page-container">
+    <header class="page-header">
+      <h1>Find Your Right College</h1>
+      <p>Explore colleges and discover the right path for your future.</p>
+    </header>
+
+    <form class="search-bar" role="search">
+      <input type="search" placeholder="Search by college, course, or location" aria-label="Search colleges">
+      <button type="submit">Search</button>
+    </form>
+
+    <section class="college-listing" aria-labelledby="college-listing-title">
+      <h2 id="college-listing-title">Featured Colleges</h2>
+      <div class="college-grid">
+        <article class="college-card">
+          <h3>Indian Institute of Technology Delhi</h3>
+          <dl class="college-info">
+            <div><dt>Location</dt><dd>New Delhi</dd></div>
+            <div><dt>Course type</dt><dd>Engineering</dd></div>
+            <div><dt>Fees range</dt><dd>₹2.5L - ₹10L</dd></div>
+          </dl>
+          <button class="view-details" type="button">View Details</button>
+        </article>
+
+        <article class="college-card">
+          <h3>Christian Medical College</h3>
+          <dl class="college-info">
+            <div><dt>Location</dt><dd>Vellore</dd></div>
+            <div><dt>Course type</dt><dd>Medical</dd></div>
+            <div><dt>Fees range</dt><dd>₹5L - ₹25L</dd></div>
+          </dl>
+          <button class="view-details" type="button">View Details</button>
+        </article>
+
+        <article class="college-card">
+          <h3>St. Xavier's College</h3>
+          <dl class="college-info">
+            <div><dt>Location</dt><dd>Mumbai</dd></div>
+            <div><dt>Course type</dt><dd>Arts &amp; Commerce</dd></div>
+            <div><dt>Fees range</dt><dd>₹45K - ₹1.5L</dd></div>
+          </dl>
+          <button class="view-details" type="button">View Details</button>
+        </article>
+
+        <article class="college-card">
+          <h3>National Institute of Fashion Technology</h3>
+          <dl class="college-info">
+            <div><dt>Location</dt><dd>Bengaluru</dd></div>
+            <div><dt>Course type</dt><dd>Design</dd></div>
+            <div><dt>Fees range</dt><dd>₹3L - ₹12L</dd></div>
+          </dl>
+          <button class="view-details" type="button">View Details</button>
+        </article>
+
+        <article class="college-card">
+          <h3>Indian Institute of Management Ahmedabad</h3>
+          <dl class="college-info">
+            <div><dt>Location</dt><dd>Ahmedabad</dd></div>
+            <div><dt>Course type</dt><dd>Management</dd></div>
+            <div><dt>Fees range</dt><dd>₹12L - ₹25L</dd></div>
+          </dl>
+          <button class="view-details" type="button">View Details</button>
+        </article>
+
+        <article class="college-card">
+          <h3>Birla Institute of Technology and Science</h3>
+          <dl class="college-info">
+            <div><dt>Location</dt><dd>Pilani</dd></div>
+            <div><dt>Course type</dt><dd>Science &amp; Engineering</dd></div>
+            <div><dt>Fees range</dt><dd>₹8L - ₹18L</dd></div>
+          </dl>
+          <button class="view-details" type="button">View Details</button>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
