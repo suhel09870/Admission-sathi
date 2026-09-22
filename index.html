@@ -217,6 +217,63 @@
       padding: 11px 16px;
     }
 
+    .site-footer {
+      background: #1f2937;
+      color: #fff;
+      padding: 48px 0 20px;
+    }
+
+    .site-footer .container {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+      gap: 28px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .footer-brand p {
+      margin: 16px 0 0;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.7;
+      max-width: 320px;
+    }
+
+    .footer-column h4 {
+      margin: 0 0 16px;
+      font-size: 1rem;
+      color: #fff;
+    }
+
+    .footer-links {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: #fff;
+    }
+
+    .footer-bottom {
+      padding-top: 18px;
+      color: rgba(255, 255, 255, 0.8);
+      text-align: center;
+      font-size: 0.92rem;
+    }
+
     @media (max-width: 760px) {
       .college-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -275,7 +332,9 @@
         </select>
       </div>
 
-      <div class="filter-field">
+      <div class=
+   
+      "filter-field">
         <label for="course-filter">Course Type</label>
         <select id="course-filter" name="course-type">
           <option value="Engineering">Engineering</option>
@@ -367,6 +426,52 @@
       </div>
     </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Admission Saathi</h3>
+          <p>Helping students discover the right college, course, and future with confidence.</p>
+        </div>
+
+        <div class="footer-column">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Colleges</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>For Students</h4>
+          <ul class="footer-links">
+            <li><a href="#">Scholarships</a></li>
+            <li><a href="#">Career Guidance</a></li>
+            <li><a href="#">Admission Tips</a></li>
+            <li><a href="#">FAQs</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Connect With Us</h4>
+          <ul class="footer-links">
+            <li><a href="#">Email</a></li>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#">WhatsApp</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        © 2026 Admission Saathi. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
   <script src="js/script.js" defer></script>
 </body>
 </html>
