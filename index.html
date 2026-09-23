@@ -334,12 +334,17 @@
       display: none !important;
     }
 
+    .data-status,
     .no-results {
       grid-column: 1 / -1;
       padding: 48px 24px;
       color: #6b7280;
       text-align: center;
       font-size: 1rem;
+    }
+
+    .data-status.error {
+      color: #b91c1c;
     }
 
     .college-modal[hidden] {
@@ -1057,20 +1062,9 @@
       </div>
 
       <div class="filter-field">
-        <label for="category-filter">College Type</label>
-        <select id="category-filter" name="category">
-          <option value="" selected>All College Types</option>
-        </select>
-      </div>
-
-      <div class="filter-field">
-        <label for="fees-filter">Fees Range</label>
-        <select id="fees-filter" name="fees-range">
-          <option value="under-5">Under ₹5L</option>
-          <option value="5-15">₹5L-₹15L</option>
-          <option value="15-25">₹15L-₹25L</option>
-          <option value="above-25">Above ₹25L</option>
-          <option value="" selected>Any</option>
+        <label for="affiliation-filter">Affiliation</label>
+        <select id="affiliation-filter" name="affiliation">
+          <option value="" selected>All Affiliations</option>
         </select>
       </div>
 
@@ -1079,8 +1073,9 @@
     </form>
 
     <section class="college-listing" aria-labelledby="college-listing-title">
-      <h2 id="college-listing-title">Featured Colleges (Demo Dataset Only)</h2>
+      <h2 id="college-listing-title">Colleges</h2>
       <div class="college-grid">
+        <p class="data-status" id="data-status" role="status">Loading colleges...</p>
         <p class="no-results" id="no-results" role="status" hidden>No colleges match your search. Try adjusting your filters or search term.</p>
       </div>
     </section>
@@ -1169,7 +1164,7 @@
       <h2 id="modal-college-name"></h2>
       <p class="college-modal-location"><span aria-hidden="true">📍</span><span id="modal-location-heading"></span></p>
       <div class="college-modal-summary">
-        <div class="college-summary-item"><span>College Type</span><strong id="modal-category"></strong></div>
+        <div class="college-summary-item"><span>Affiliation</span><strong id="modal-affiliation"></strong></div>
         <div class="college-summary-item"><span>Available Course</span><strong id="modal-course-type"></strong></div>
       </div>
       <div class="college-detail-grid">
@@ -1251,6 +1246,8 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
   <script src="js/script.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,7 @@
+# Local browser configuration containing the Supabase publishable key.
+js/config.js
+
+# Environment files may contain local credentials.
+.env
+.env.*
+!.env.example

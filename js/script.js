@@ -1,17 +1,4 @@
-const colleges = [
-  { name: 'Demo City College of Computer Studies', city: 'Chandausi', state: 'Uttar Pradesh', courses: [{ code: 'BCA', name: 'Bachelor of Computer Applications' }, { code: 'MCA', name: 'Master of Computer Applications' }], category: 'Private College', fees: '₹65K - ₹1.4L', feesRange: 'under-5', eligibility: '12th from a recognised board for BCA; graduation for MCA', admissionStatus: 'Applications open', description: 'Sample record for testing computer applications searches and college details.', applicationUrl: null },
-  { name: 'Demo Institute of Digital Learning', city: 'Pune', state: 'Maharashtra', courses: [{ code: 'BCA', name: 'Bachelor of Computer Applications' }, { code: 'BBA', name: 'Bachelor of Business Administration' }], category: 'Autonomous College', fees: '₹1.2L - ₹2.8L', feesRange: 'under-5', eligibility: '12th from a recognised board', admissionStatus: 'Admissions opening soon', description: 'Sample record with BCA and BBA for testing multi-course filters.', applicationUrl: null },
-  { name: 'Demo Arts and Commerce College', city: 'Mumbai', state: 'Maharashtra', courses: [{ code: 'BA', name: 'Bachelor of Arts' }, { code: 'B.Com', name: 'Bachelor of Commerce' }], category: 'Government College', fees: '₹35K - ₹90K', feesRange: 'under-5', eligibility: '12th from a recognised board', admissionStatus: 'Applications open', description: 'Sample undergraduate arts and commerce college record.', applicationUrl: null },
-  { name: 'Demo Science Academy', city: 'Bengaluru', state: 'Karnataka', courses: [{ code: 'B.Sc', name: 'Bachelor of Science' }, { code: 'M.Sc', name: 'Master of Science' }], category: 'Private Institute', fees: '₹2.5L - ₹6L', feesRange: '5-15', eligibility: '12th with relevant subjects for B.Sc; graduation for M.Sc', admissionStatus: 'Applications closed', description: 'Sample science-focused institute record for filter testing.', applicationUrl: null },
-  { name: 'Demo School of Business', city: 'Ahmedabad', state: 'Gujarat', courses: [{ code: 'BBA', name: 'Bachelor of Business Administration' }, { code: 'BBM', name: 'Bachelor of Business Management' }], category: 'Private College', fees: '₹4L - ₹8L', feesRange: '5-15', eligibility: '12th from a recognised board', admissionStatus: 'Applications open', description: 'Sample business college record with mid-range fees.', applicationUrl: null },
-  { name: 'Demo College of Technology', city: 'Jaipur', state: 'Rajasthan', courses: [{ code: 'B.Tech', name: 'Bachelor of Technology' }], category: 'Public Institute', fees: '₹6L - ₹14L', feesRange: '5-15', eligibility: '12th with PCM and an applicable entrance qualification', admissionStatus: 'Admissions opening soon', description: 'Sample technology college record for engineering course searches.', applicationUrl: null },
-  { name: 'Demo Media and Communication College', city: 'Kolkata', state: 'West Bengal', courses: [{ code: 'BJMC', name: 'Bachelor of Journalism and Mass Communication' }, { code: 'BA', name: 'Bachelor of Arts' }], category: 'Autonomous College', fees: '₹1.8L - ₹4.5L', feesRange: 'under-5', eligibility: '12th from a recognised board', admissionStatus: 'Applications open', description: 'Sample media college record for full course name searches.', applicationUrl: null },
-  { name: 'Demo Law and Public Policy Institute', city: 'New Delhi', state: 'Delhi', courses: [{ code: 'LLB', name: 'Bachelor of Laws' }, { code: 'MA', name: 'Master of Arts' }], category: 'Public Institute', fees: '₹5L - ₹16L', feesRange: '15-25', eligibility: 'Graduation for LLB and MA programmes', admissionStatus: 'Applications closed', description: 'Sample law and public policy institute record.', applicationUrl: null },
-  { name: 'Demo School of Commerce', city: 'Chennai', state: 'Tamil Nadu', courses: [{ code: 'B.Com', name: 'Bachelor of Commerce' }, { code: 'M.Com', name: 'Master of Commerce' }], category: 'Private College', fees: '₹7L - ₹18L', feesRange: '5-15', eligibility: '12th for B.Com; graduation for M.Com', admissionStatus: 'Applications open', description: 'Sample commerce college record with postgraduate options.', applicationUrl: null },
-  { name: 'Demo College of Liberal Studies', city: 'Kochi', state: 'Kerala', courses: [{ code: 'BA', name: 'Bachelor of Arts' }, { code: 'MA', name: 'Master of Arts' }], category: 'Government College', fees: '₹2.2L - ₹5.5L', feesRange: '5-15', eligibility: '12th for BA; graduation for MA', admissionStatus: 'Admissions opening soon', description: 'Sample liberal studies college record for city and course testing.', applicationUrl: null },
-  { name: 'Demo Advanced Computing Institute', city: 'Hyderabad', state: 'Telangana', courses: [{ code: 'MCA', name: 'Master of Computer Applications' }, { code: 'B.Tech', name: 'Bachelor of Technology' }], category: 'Private Institute', fees: '₹16L - ₹28L', feesRange: 'above-25', eligibility: 'Graduation for MCA; 12th with PCM for B.Tech', admissionStatus: 'Applications open', description: 'Sample advanced computing institute record with a higher fee range.', applicationUrl: null },
-  { name: 'Demo Management and Research Centre', city: 'Indore', state: 'Madhya Pradesh', courses: [{ code: 'BBM', name: 'Bachelor of Business Management' }, { code: 'BBA', name: 'Bachelor of Business Administration' }], category: 'Deemed University', fees: '₹12L - ₹24L', feesRange: '15-25', eligibility: '12th from a recognised board', admissionStatus: 'Admissions opening soon', description: 'Sample management record for category, fees, and course filters.', applicationUrl: null }
-];
+let colleges = [];
 
 const filterForm = document.querySelector('#college-filters');
 const collegeGrid = document.querySelector('.college-grid');
@@ -22,6 +9,7 @@ const searchButton = searchForm.querySelector('button');
 const homeSearchForm = document.querySelector('#home-search');
 const homeSearchInput = document.querySelector('#home-search-input');
 const noResultsMessage = document.querySelector('#no-results');
+const dataStatus = document.querySelector('#data-status');
 const collegeModal = document.querySelector('#college-modal');
 const modalCloseButton = document.querySelector('.college-modal-close');
 const modalSecondaryCloseButton = document.querySelector('[data-college-modal-close]');
@@ -29,34 +17,33 @@ const modalApplyButton = document.querySelector('#modal-apply-button');
 const modalApplyMessage = document.querySelector('#modal-apply-message');
 
 const modalFields = {
-  name: document.querySelector('#modal-college-name'), locationHeading: document.querySelector('#modal-location-heading'), location: document.querySelector('#modal-location'), courseType: document.querySelector('#modal-course-type'), courses: document.querySelector('#modal-courses'), category: document.querySelector('#modal-category'), fees: document.querySelector('#modal-fees'), eligibility: document.querySelector('#modal-eligibility'), admissionStatus: document.querySelector('#modal-admission-status'), description: document.querySelector('#modal-description')
+  name: document.querySelector('#modal-college-name'), locationHeading: document.querySelector('#modal-location-heading'), location: document.querySelector('#modal-location'), courseType: document.querySelector('#modal-course-type'), courses: document.querySelector('#modal-courses'), affiliation: document.querySelector('#modal-affiliation'), fees: document.querySelector('#modal-fees'), eligibility: document.querySelector('#modal-eligibility'), admissionStatus: document.querySelector('#modal-admission-status'), description: document.querySelector('#modal-description')
 };
 
 const getAdmissionStatusClass = (status) => {
-  const normalizedStatus = status.toLowerCase();
+  const normalizedStatus = (status || '').toLowerCase();
   if (normalizedStatus.includes('soon')) return 'status-coming-soon';
   if (normalizedStatus.includes('open')) return 'status-open';
   return 'status-closed';
 };
 
-const getCourseLabel = (course) => `${course.code} — ${course.name}`;
-const getCourseSearchText = (course) => `${course.code} ${course.name}`;
-const getCollegeCoursesText = (college) => college.courses.map(getCourseLabel).join(', ');
+const displayValue = (value) => value ?? '';
+const getCollegeCoursesText = (college) => displayValue(college.course);
 
 const openCollegeModal = (college) => {
   modalFields.name.textContent = college.name;
-  const location = `${college.city}, ${college.state}`;
+  const location = [college.city, college.state].filter(Boolean).join(', ');
   modalFields.locationHeading.textContent = location;
   modalFields.location.textContent = location;
   modalFields.courseType.textContent = getCollegeCoursesText(college);
   modalFields.courses.textContent = getCollegeCoursesText(college);
-  modalFields.category.textContent = college.category;
-  modalFields.fees.textContent = college.fees;
-  modalFields.eligibility.textContent = college.eligibility;
-  modalFields.admissionStatus.textContent = college.admissionStatus;
-  modalFields.admissionStatus.className = `admission-status ${getAdmissionStatusClass(college.admissionStatus)}`;
-  modalFields.description.textContent = college.description;
-  modalApplyButton.dataset.applicationUrl = college.applicationUrl || '';
+  modalFields.affiliation.textContent = displayValue(college.affiliation);
+  modalFields.fees.textContent = displayValue(college.fees);
+  modalFields.eligibility.textContent = displayValue(college.eligibility);
+  modalFields.admissionStatus.textContent = displayValue(college.admission_status);
+  modalFields.admissionStatus.className = `admission-status ${getAdmissionStatusClass(college.admission_status)}`;
+  modalFields.description.textContent = displayValue(college.description);
+  modalApplyButton.dataset.applicationUrl = college.application_url || '';
   modalApplyMessage.hidden = true;
   modalApplyMessage.textContent = '';
   collegeModal.hidden = false;
@@ -66,7 +53,14 @@ const openCollegeModal = (college) => {
 const createCollegeCard = (college) => {
   const card = document.createElement('article');
   card.className = 'college-card';
-  card.innerHTML = `<h3>${college.name}</h3><dl class="college-info"><div><dt>Location</dt><dd>${college.city}, ${college.state}</dd></div><div><dt>Course</dt><dd>${getCollegeCoursesText(college)}</dd></div><div><dt>Fees</dt><dd>${college.fees}</dd></div><div><dt>Admission status</dt><dd class="admission-status ${getAdmissionStatusClass(college.admissionStatus)}">${college.admissionStatus}</dd></div></dl><button class="view-details" type="button">View Details</button>`;
+  card.innerHTML = '<h3></h3><dl class="college-info"><div><dt>Location</dt><dd></dd></div><div><dt>Course</dt><dd></dd></div><div><dt>Fees</dt><dd></dd></div><div><dt>Admission status</dt><dd class="admission-status"></dd></div></dl><button class="view-details" type="button">View Details</button>';
+  card.querySelector('h3').textContent = displayValue(college.name);
+  const details = card.querySelectorAll('.college-info dd');
+  details[0].textContent = [college.city, college.state].filter(Boolean).join(', ');
+  details[1].textContent = getCollegeCoursesText(college);
+  details[2].textContent = displayValue(college.fees);
+  details[3].textContent = displayValue(college.admission_status);
+  details[3].className = `admission-status ${getAdmissionStatusClass(college.admission_status)}`;
   card.querySelector('.view-details').addEventListener('click', () => openCollegeModal(college));
   return card;
 };
@@ -77,13 +71,12 @@ const renderCollegeCards = (visibleColleges) => {
 };
 
 const populateFilterOptions = () => {
-  const filters = [[filterForm.elements.location, 'locations', 'All Locations'], [filterForm.elements['course-type'], 'courses', 'All Courses'], [filterForm.elements.category, 'category', 'All College Types']];
+  const filters = [[filterForm.elements.location, 'locations', 'All Locations'], [filterForm.elements['course-type'], 'course', 'All Courses'], [filterForm.elements.affiliation, 'affiliation', 'All Affiliations']];
   filters.forEach(([select, field, label]) => {
     select.replaceChildren(new Option(label, ''));
     const values = colleges.flatMap((college) => {
-      if (field === 'locations') return [college.city, college.state];
-      if (field === 'courses') return college.courses.map(getCourseLabel);
-      return [college[field]];
+      if (field === 'locations') return [college.city, college.state].filter(Boolean);
+      return [college[field]].filter(Boolean);
     });
     [...new Set(values)].sort().forEach((value) => select.add(new Option(value, value)));
   });
@@ -92,12 +85,11 @@ const populateFilterOptions = () => {
 const updateVisibleCards = () => {
   const searchTerm = searchInput.value.trim().toLowerCase();
   const selectedLocation = filterForm.elements.location.value;
-  const selectedCourseType = filterForm.elements['course-type'].value;
-  const selectedCategory = filterForm.elements.category.value;
-  const selectedFeesRange = filterForm.elements['fees-range'].value;
+  const selectedCourse = filterForm.elements['course-type'].value;
+  const selectedAffiliation = filterForm.elements.affiliation.value;
   const visibleColleges = colleges.filter((college) => {
-    const searchableText = [college.name, college.city, college.state, ...college.courses.map(getCourseSearchText)].join(' ').toLowerCase();
-    return (!searchTerm || searchableText.includes(searchTerm)) && (!selectedLocation || [college.city, college.state].includes(selectedLocation)) && (!selectedCourseType || college.courses.some((course) => getCourseLabel(course) === selectedCourseType)) && (!selectedCategory || college.category === selectedCategory) && (!selectedFeesRange || college.feesRange === selectedFeesRange);
+    const searchableText = [college.name, college.city, college.state, college.course, college.affiliation].filter(Boolean).join(' ').toLowerCase();
+    return (!searchTerm || searchableText.includes(searchTerm)) && (!selectedLocation || [college.city, college.state].includes(selectedLocation)) && (!selectedCourse || college.course === selectedCourse) && (!selectedAffiliation || college.affiliation === selectedAffiliation);
   });
   renderCollegeCards(visibleColleges);
   noResultsMessage.hidden = visibleColleges.length > 0;
@@ -299,6 +291,27 @@ document.addEventListener('keydown', (event) => {
   else if (!profileModal.hidden) closeProfileModal();
 });
 
-populateFilterOptions();
-updateVisibleCards();
+const loadColleges = async () => {
+  const config = window.SUPABASE_CONFIG || {};
+  if (!window.supabase || !config.url || !config.anonKey) {
+    dataStatus.textContent = 'College data is unavailable. Add the Supabase publishable key to js/config.js.';
+    dataStatus.classList.add('error');
+    return;
+  }
+
+  const supabaseClient = window.supabase.createClient(config.url, config.anonKey);
+  const { data, error } = await supabaseClient.from('colleges').select('id, name, city, state, official_website, affiliation, established_year, course, fees, eligibility, admission_status, application_url, description, last_verified_at, academic_data_verified_at');
+  if (error) {
+    dataStatus.textContent = `Unable to load colleges: ${error.message}`;
+    dataStatus.classList.add('error');
+    return;
+  }
+
+  colleges = data || [];
+  dataStatus.hidden = true;
+  populateFilterOptions();
+  updateVisibleCards();
+};
+
+loadColleges();
 updateAccountButton();
