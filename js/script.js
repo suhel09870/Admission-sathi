@@ -28,19 +28,23 @@ const getAdmissionStatusClass = (status) => {
 };
 
 const displayValue = (value) => value ?? '';
-const getCollegeCoursesText = (college) => displayValue(college.course);
+const displayCollegeField = (value) => {
+  if (value === null || value === undefined) return 'Not available';
+  if (typeof value === 'string' && value.trim() === '') return 'Not available';
+  return value;
+};
 
 const openCollegeModal = (college) => {
   modalFields.name.textContent = college.name;
   const location = [college.city, college.state].filter(Boolean).join(', ');
   modalFields.locationHeading.textContent = location;
   modalFields.location.textContent = location;
-  modalFields.courseType.textContent = getCollegeCoursesText(college);
-  modalFields.courses.textContent = getCollegeCoursesText(college);
+  modalFields.courseType.textContent = displayCollegeField(college.course);
+  modalFields.courses.textContent = displayCollegeField(college.course);
   modalFields.affiliation.textContent = displayValue(college.affiliation);
-  modalFields.fees.textContent = displayValue(college.fees);
-  modalFields.eligibility.textContent = displayValue(college.eligibility);
-  modalFields.admissionStatus.textContent = displayValue(college.admission_status);
+  modalFields.fees.textContent = displayCollegeField(college.fees);
+  modalFields.eligibility.textContent = displayCollegeField(college.eligibility);
+  modalFields.admissionStatus.textContent = displayCollegeField(college.admission_status);
   modalFields.admissionStatus.className = `admission-status ${getAdmissionStatusClass(college.admission_status)}`;
   modalFields.description.textContent = displayValue(college.description);
   modalApplyButton.dataset.applicationUrl = college.application_url || '';
@@ -57,9 +61,9 @@ const createCollegeCard = (college) => {
   card.querySelector('h3').textContent = displayValue(college.name);
   const details = card.querySelectorAll('.college-info dd');
   details[0].textContent = [college.city, college.state].filter(Boolean).join(', ');
-  details[1].textContent = getCollegeCoursesText(college);
-  details[2].textContent = displayValue(college.fees);
-  details[3].textContent = displayValue(college.admission_status);
+  details[1].textContent = displayCollegeField(college.course);
+  details[2].textContent = displayCollegeField(college.fees);
+  details[3].textContent = displayCollegeField(college.admission_status);
   details[3].className = `admission-status ${getAdmissionStatusClass(college.admission_status)}`;
   card.querySelector('.view-details').addEventListener('click', () => openCollegeModal(college));
   return card;
