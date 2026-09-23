@@ -1,4 +1,5 @@
 let colleges = [];
+let programsByCollegeId = new Map();
 
 const filterForm = document.querySelector('#college-filters');
 const collegeGrid = document.querySelector('.college-grid');
@@ -15,6 +16,8 @@ const modalCloseButton = document.querySelector('.college-modal-close');
 const modalSecondaryCloseButton = document.querySelector('[data-college-modal-close]');
 const modalApplyButton = document.querySelector('#modal-apply-button');
 const modalApplyMessage = document.querySelector('#modal-apply-message');
+const modalPrograms = document.querySelector('#modal-programs');
+const modalProgramList = document.querySelector('#modal-program-list');
 
 const modalFields = {
   name: document.querySelector('#modal-college-name'), locationHeading: document.querySelector('#modal-location-heading'), location: document.querySelector('#modal-location'), courseType: document.querySelector('#modal-course-type'), courses: document.querySelector('#modal-courses'), affiliation: document.querySelector('#modal-affiliation'), fees: document.querySelector('#modal-fees'), eligibility: document.querySelector('#modal-eligibility'), admissionStatus: document.querySelector('#modal-admission-status'), description: document.querySelector('#modal-description')
@@ -34,6 +37,63 @@ const displayCollegeField = (value) => {
   return value;
 };
 
+const isHttpUrl = (value) => {
+  if (typeof value !== 'string' || !value.trim()) return false;
+  try {
+    const url = new URL(value);
+    return url.protocol === 'http:' || url.protocol === 'https:';
+  } catch {
+    return false;
+  }
+};
+
+const appendProgramField = (details, label, value) => {
+  if (value === null || value === undefined || (typeof value === 'string' && !value.trim())) return;
+  const wrapper = document.createElement('div');
+  const term = document.createElement('dt');
+  const description = document.createElement('dd');
+  term.textContent = label;
+  description.textContent = value;
+  wrapper.append(term, description);
+  details.append(wrapper);
+};
+
+const appendProgramLink = (details, label, value, linkText) => {
+  if (!isHttpUrl(value)) return;
+  const wrapper = document.createElement('div');
+  const term = document.createElement('dt');
+  const description = document.createElement('dd');
+  const link = document.createElement('a');
+  term.textContent = label;
+  link.href = value;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  link.textContent = linkText;
+  description.append(link);
+  wrapper.append(term, description);
+  details.append(wrapper);
+};
+
+const renderPrograms = (programs) => {
+  modalProgramList.replaceChildren();
+  modalPrograms.hidden = programs.length === 0;
+  programs.forEach((program) => {
+    const item = document.createElement('article');
+    const title = document.createElement('h4');
+    const details = document.createElement('dl');
+    item.className = 'program-item';
+    title.textContent = program.program_name || '';
+    appendProgramField(details, 'Level', program.level);
+    appendProgramField(details, 'Admission status', program.admission_status);
+    appendProgramField(details, 'Fees', program.fees);
+    appendProgramField(details, 'Eligibility', program.eligibility);
+    appendProgramLink(details, 'Application', program.application_url, 'Apply');
+    appendProgramLink(details, 'Source', program.source_url, 'Official source');
+    item.append(title, details);
+    modalProgramList.append(item);
+  });
+};
+
 const openCollegeModal = (college) => {
   modalFields.name.textContent = college.name;
   const location = [college.city, college.state].filter(Boolean).join(', ');
@@ -47,6 +107,7 @@ const openCollegeModal = (college) => {
   modalFields.admissionStatus.textContent = displayCollegeField(college.admission_status);
   modalFields.admissionStatus.className = `admission-status ${getAdmissionStatusClass(college.admission_status)}`;
   modalFields.description.textContent = displayValue(college.description);
+  renderPrograms(programsByCollegeId.get(college.id) || []);
   modalApplyButton.dataset.applicationUrl = college.application_url || '';
   modalApplyMessage.hidden = true;
   modalApplyMessage.textContent = '';
@@ -280,7 +341,7 @@ modalCloseButton.addEventListener('click', closeCollegeModal);
 modalSecondaryCloseButton.addEventListener('click', closeCollegeModal);
 modalApplyButton.addEventListener('click', () => {
   const applicationUrl = modalApplyButton.dataset.applicationUrl;
-  if (applicationUrl) {
+  if (isHttpUrl(applicationUrl)) {
     window.open(applicationUrl, '_blank', 'noopener,noreferrer');
     return;
   }
@@ -304,7 +365,13 @@ const loadColleges = async () => {
   }
 
   const supabaseClient = window.supabase.createClient(config.url, config.anonKey);
-  const { data, error } = await supabaseClient.from('colleges').select('id, name, city, state, official_website, affiliation, established_year, course, fees, eligibility, admission_status, application_url, description, last_verified_at, academic_data_verified_at');
+  const [collegeRequest, programRequest] = await Promise.allSettled([
+    supabaseClient.from('colleges').select('id, name, city, state, official_website, affiliation, established_year, course, fees, eligibility, admission_status, application_url, description, last_verified_at, academic_data_verified_at'),
+    supabaseClient.from('college_programs').select('id, college_id, program_name, level, fees, eligibility, admission_status, application_url, academic_data_verified_at, source_url')
+  ]);
+  const collegeResult = collegeRequest.status === 'fulfilled' ? collegeRequest.value : { data: null, error: collegeRequest.reason };
+  const programResult = programRequest.status === 'fulfilled' ? programRequest.value : { data: null, error: programRequest.reason };
+  const { data, error } = collegeResult;
   if (error) {
     dataStatus.textContent = `Unable to load colleges: ${error.message}`;
     dataStatus.classList.add('error');
@@ -312,6 +379,14 @@ const loadColleges = async () => {
   }
 
   colleges = data || [];
+  programsByCollegeId = new Map();
+  if (!programResult.error) {
+    (programResult.data || []).forEach((program) => {
+      const collegePrograms = programsByCollegeId.get(program.college_id) || [];
+      collegePrograms.push(program);
+      programsByCollegeId.set(program.college_id, collegePrograms);
+    });
+  }
   dataStatus.hidden = true;
   populateFilterOptions();
   updateVisibleCards();

@@ -768,6 +768,66 @@
       line-height: 1.6;
     }
 
+    .college-programs {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #e8edf3;
+    }
+
+    .college-programs h3 {
+      margin: 0 0 12px;
+      color: #1f2937;
+      font-size: 1rem;
+    }
+
+    .program-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .program-item {
+      display: grid;
+      gap: 8px;
+      padding: 14px;
+      border: 1px solid #e8edf3;
+      border-radius: 10px;
+      background: #f8fafc;
+    }
+
+    .program-item h4 {
+      margin: 0;
+      color: #1f2937;
+      font-size: 0.98rem;
+    }
+
+    .program-item dl {
+      display: grid;
+      gap: 6px;
+      margin: 0;
+    }
+
+    .program-item dl div {
+      display: flex;
+      gap: 8px;
+      color: #4b5563;
+      font-size: 0.9rem;
+    }
+
+    .program-item dt {
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .program-item dd {
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .program-item a {
+      color: #2563eb;
+      font-weight: 600;
+    }
+
     .college-modal-actions {
       display: flex;
       gap: 10px;
@@ -1192,6 +1252,10 @@
       <section class="college-description">
         <h3>About the college</h3>
         <p id="modal-description"></p>
+      </section>
+      <section class="college-programs" id="modal-programs" aria-labelledby="modal-programs-title" hidden>
+        <h3 id="modal-programs-title">Programs &amp; Admission</h3>
+        <div class="program-list" id="modal-program-list"></div>
       </section>
       <div class="college-modal-actions">
         <button class="college-apply-button" id="modal-apply-button" type="button">Apply Now</button>
