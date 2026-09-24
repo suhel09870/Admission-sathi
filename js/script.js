@@ -136,34 +136,12 @@ const renderCollegeCards = (visibleColleges) => {
 };
 
 const populateFilterOptions = () => {
-  const filters = [[filterForm.elements.location, 'locations', 'All Locations'], [filterForm.elements['course-type'], 'course', 'All Courses'], [filterForm.elements.affiliation, 'affiliation', 'All Affiliations']];
+  const filters = [[filterForm.elements.location, 'city', 'All Locations'], [filterForm.elements['course-type'], 'course', 'All Courses'], [filterForm.elements.affiliation, 'affiliation', 'All Affiliations']];
   filters.forEach(([select, field, label]) => {
     select.replaceChildren(new Option(label, ''));
-    const visibleColleges = colleges.filter((college) => {
-  const programs = programsByCollegeId.get(college.id) || [];
-
-  const programSearchText = programs
-    .flatMap((program) => [program.program_name, program.level])
-    .filter(Boolean);
-
-  const searchableText = [
-    college.name,
-    college.city,
-    college.state,
-    college.course,
-    college.affiliation,
-    ...programSearchText
-  ]
-    .join(' ')
-    .toLowerCase();
-
-  return (
-    (!searchTerm || searchableText.includes(searchTerm)) &&
-    (!selectedLocation || [college.city, college.state].includes(selectedLocation)) &&
-    (!selectedCourse || college.course === selectedCourse) &&
-    (!selectedAffiliation || college.affiliation === selectedAffiliation)
-  );
-});
+    const values = colleges
+      .map((college) => college[field])
+      .filter((value) => value !== null && value !== undefined && String(value).trim() !== '');
     [...new Set(values)].sort().forEach((value) => select.add(new Option(value, value)));
   });
 };

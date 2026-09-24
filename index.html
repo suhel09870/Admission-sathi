@@ -968,6 +968,10 @@
     }
 
     @media (max-width: 760px) {
+      .footer-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
+
       .filters-bar {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -978,6 +982,10 @@
     }
 
     @media (max-width: 520px) {
+      .footer-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
       .page-container {
         width: min(100% - 24px, 420px);
         padding-top: 32px;
