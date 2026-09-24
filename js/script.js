@@ -23,6 +23,55 @@ const modalFields = {
   name: document.querySelector('#modal-college-name'), locationHeading: document.querySelector('#modal-location-heading'), location: document.querySelector('#modal-location'), courseType: document.querySelector('#modal-course-type'), courses: document.querySelector('#modal-courses'), affiliation: document.querySelector('#modal-affiliation'), fees: document.querySelector('#modal-fees'), eligibility: document.querySelector('#modal-eligibility'), admissionStatus: document.querySelector('#modal-admission-status'), description: document.querySelector('#modal-description')
 };
 
+const normalizeCourses = (value, fallbackCourse) => {
+  let courses = value;
+  if (typeof courses === 'string') {
+    try {
+      const parsedCourses = JSON.parse(courses);
+      courses = Array.isArray(parsedCourses) ? parsedCourses : courses;
+    } catch {
+      courses = courses.split(',');
+    }
+  }
+  if (!Array.isArray(courses)) courses = fallbackCourse ? [fallbackCourse] : [];
+  const normalizedCourses = courses
+    .flatMap((course) => {
+      if (course && typeof course === 'object') return [course.name || course.code || ''];
+      return [course];
+    })
+    .map((course) => String(course ?? '').trim())
+    .filter(Boolean);
+  return normalizedCourses.length ? normalizedCourses : (fallbackCourse ? [String(fallbackCourse).trim()] : []);
+};
+
+const normalizeCollege = (college) => {
+  const course = college.course ?? '';
+  return {
+    id: college.id,
+    name: college.name ?? '',
+    city: college.city ?? '',
+    state: college.state ?? '',
+    course,
+    courses: normalizeCourses(college.courses, course),
+    fees: college.fees ?? '',
+    eligibility: college.eligibility ?? '',
+    admission_status: college.admission_status ?? '',
+    description: college.description ?? '',
+    application_url: college.application_url ?? '',
+    website: college.website ?? '',
+    official_website: college.official_website ?? '',
+    affiliation: college.affiliation ?? '',
+    category: college.category ?? '',
+    institution_type: college.institution_type ?? '',
+    ownership: college.ownership ?? '',
+    address: college.address ?? '',
+    established_year: college.established_year ?? '',
+    last_verified_at: college.last_verified_at ?? '',
+    source_url: college.source_url ?? '',
+    academic_data_verified_at: college.academic_data_verified_at ?? ''
+  };
+};
+
 const getAdmissionStatusClass = (status) => {
   const normalizedStatus = (status || '').toLowerCase();
   if (normalizedStatus.includes('soon')) return 'status-coming-soon';
@@ -30,12 +79,18 @@ const getAdmissionStatusClass = (status) => {
   return 'status-closed';
 };
 
-const displayValue = (value) => value ?? '';
-const displayCollegeField = (value) => {
-  if (value === null || value === undefined) return 'Not available';
-  if (typeof value === 'string' && value.trim() === '') return 'Not available';
-  return value;
+const displayValue = (value) => {
+  if (value === null || value === undefined || value === '') return 'Not available';
+  if (Array.isArray(value)) return value.join(', ') || 'Not available';
+  if (typeof value === 'object') return 'Not available';
+  return String(value);
 };
+const displayCollegeField = (value) => {
+  return displayValue(value);
+};
+
+const getCollegeCourses = (college) => college.courses.length ? college.courses : normalizeCourses(college.course);
+const getCollegeWebsite = (college) => college.official_website || college.website;
 
 const isHttpUrl = (value) => {
   if (typeof value !== 'string' || !value.trim()) return false;
@@ -95,19 +150,25 @@ const renderPrograms = (programs) => {
 };
 
 const openCollegeModal = (college) => {
-  modalFields.name.textContent = college.name;
   const location = [college.city, college.state].filter(Boolean).join(', ');
-  modalFields.locationHeading.textContent = location;
-  modalFields.location.textContent = location;
-  modalFields.courseType.textContent = displayCollegeField(college.course);
-  modalFields.courses.textContent = displayCollegeField(college.course);
+  const address = college.address || location;
+  const website = getCollegeWebsite(college);
+  const metadata = [
+    college.established_year ? `Established: ${college.established_year}` : '',
+    website ? `Website: ${website}` : ''
+  ].filter(Boolean);
+  modalFields.name.textContent = displayValue(college.name);
+  modalFields.locationHeading.textContent = displayValue(location);
+  modalFields.location.textContent = displayValue([address, location].filter(Boolean).join(' | '));
+  modalFields.courseType.textContent = displayCollegeField(getCollegeCourses(college));
+  modalFields.courses.textContent = displayCollegeField(getCollegeCourses(college));
   modalFields.affiliation.textContent = displayValue(college.affiliation);
   modalFields.fees.textContent = displayCollegeField(college.fees);
   modalFields.eligibility.textContent = displayCollegeField(college.eligibility);
   modalFields.admissionStatus.textContent = displayCollegeField(college.admission_status);
   modalFields.admissionStatus.className = `admission-status ${getAdmissionStatusClass(college.admission_status)}`;
-  modalFields.description.textContent = displayValue(college.description);
-  renderPrograms(programsByCollegeId.get(college.id) || []);
+  modalFields.description.textContent = [displayCollegeField(college.description), ...metadata].join('\n\n');
+  renderPrograms([]);
   modalApplyButton.dataset.applicationUrl = college.application_url || '';
   modalApplyMessage.hidden = true;
   modalApplyMessage.textContent = '';
@@ -121,8 +182,8 @@ const createCollegeCard = (college) => {
   card.innerHTML = '<h3></h3><dl class="college-info"><div><dt>Location</dt><dd></dd></div><div><dt>Course</dt><dd></dd></div><div><dt>Fees</dt><dd></dd></div><div><dt>Admission status</dt><dd class="admission-status"></dd></div></dl><button class="view-details" type="button">View Details</button>';
   card.querySelector('h3').textContent = displayValue(college.name);
   const details = card.querySelectorAll('.college-info dd');
-  details[0].textContent = [college.city, college.state].filter(Boolean).join(', ');
-  details[1].textContent = displayCollegeField(college.course);
+  details[0].textContent = displayValue([college.city, college.state].filter(Boolean).join(', '));
+  details[1].textContent = displayCollegeField(getCollegeCourses(college));
   details[2].textContent = displayCollegeField(college.fees);
   details[3].textContent = displayCollegeField(college.admission_status);
   details[3].className = `admission-status ${getAdmissionStatusClass(college.admission_status)}`;
@@ -138,7 +199,7 @@ const renderCollegeCards = (visibleColleges) => {
 const populateFilterOptions = () => {
   const filters = [
     [filterForm.elements.location, colleges.flatMap((college) => [college.city, college.state]), 'All Locations'],
-    [filterForm.elements['course-type'], colleges.map((college) => college.course), 'All Courses'],
+    [filterForm.elements['course-type'], colleges.flatMap(getCollegeCourses), 'All Courses'],
     [filterForm.elements.affiliation, colleges.map((college) => college.affiliation), 'All Affiliations']
   ];
   filters.forEach(([select, field, label]) => {
@@ -154,30 +215,15 @@ const updateVisibleCards = () => {
   const selectedCourse = filterForm.elements['course-type'].value;
   const selectedAffiliation = filterForm.elements.affiliation.value;
   const visibleColleges = colleges.filter((college) => {
-  const programs = programsByCollegeId.get(college.id) || [];
-
-  const programSearchText = programs
-    .flatMap((program) => [program.program_name, program.level])
-    .filter(Boolean);
-
-  const searchableText = [
-    college.name,
-    college.city,
-    college.state,
-    college.course,
-    college.affiliation,
-    ...programSearchText
-  ]
-    .join(' ')
-    .toLowerCase();
-
-  return (
-    (!searchTerm || searchableText.includes(searchTerm)) &&
-    (!selectedLocation || [college.city, college.state].includes(selectedLocation)) &&
-    (!selectedCourse || college.course === selectedCourse) &&
-    (!selectedAffiliation || college.affiliation === selectedAffiliation)
-  );
-});
+    const courses = getCollegeCourses(college);
+    const searchableText = [college.name, college.city, college.state, college.course, ...courses, college.affiliation].join(' ').toLowerCase();
+    return (
+      (!searchTerm || searchableText.includes(searchTerm)) &&
+      (!selectedLocation || [college.city, college.state].includes(selectedLocation)) &&
+      (!selectedCourse || courses.includes(selectedCourse)) &&
+      (!selectedAffiliation || college.affiliation === selectedAffiliation)
+    );
+  });
   renderCollegeCards(visibleColleges);
   noResultsMessage.hidden = visibleColleges.length > 0;
 };
@@ -199,11 +245,7 @@ const loginForm = document.querySelector('#login-form');
 const signupForm = document.querySelector('#signup-form');
 const loginMessage = document.querySelector('#login-message');
 const signupMessage = document.querySelector('#signup-message');
-const profileFields = {
-  name: document.querySelector('#profile-name'),
-  email: document.querySelector('#profile-email'),
-  mobile: document.querySelector('#profile-mobile')
-};
+const profileFields = { name: document.querySelector('#profile-name'), email: document.querySelector('#profile-email'), mobile: document.querySelector('#profile-mobile') };
 const showSignupButton = document.querySelector('#show-signup');
 const showLoginButton = document.querySelector('#show-login');
 const logoutButton = document.querySelector('#logout-button');
@@ -213,48 +255,19 @@ const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const mobilePattern = /^[6-9]\d{9}$/;
 
 const getStoredProfile = () => {
-  try {
-    return JSON.parse(localStorage.getItem(demoProfileKey));
-  } catch {
-    return null;
-  }
+  try { return JSON.parse(localStorage.getItem(demoProfileKey)); } catch { return null; }
 };
-
 const getCurrentProfile = () => {
   const profile = getStoredProfile();
   const sessionIdentifier = localStorage.getItem(demoSessionKey);
   if (!profile || !sessionIdentifier || ![profile.email, profile.mobile].includes(sessionIdentifier)) return null;
   return profile;
 };
-
-const setMessage = (element, message, isSuccess = false) => {
-  element.textContent = message;
-  element.classList.toggle('success', isSuccess);
-};
-
-const clearFormMessages = (form) => {
-  form.querySelectorAll('.field-error').forEach((field) => { field.textContent = ''; });
-  setMessage(form.querySelector('.form-message'), '');
-};
-
-const setAccountModalState = (state) => {
-  const isSignup = state === 'signup';
-  loginState.hidden = isSignup;
-  signupState.hidden = !isSignup;
-  clearFormMessages(isSignup ? signupForm : loginForm);
-};
-
-const openAccountModal = (state = 'login') => {
-  setAccountModalState(state);
-  accountModal.hidden = false;
-  document.body.classList.add('modal-open');
-  (state === 'signup' ? signupForm : loginForm).querySelector('input').focus();
-};
-
-const closeAccountModal = () => {
-  accountModal.hidden = true;
-  if (profileModal.hidden && collegeModal.hidden) document.body.classList.remove('modal-open');
-};
+const setMessage = (element, message, isSuccess = false) => { element.textContent = message; element.classList.toggle('success', isSuccess); };
+const clearFormMessages = (form) => { form.querySelectorAll('.field-error').forEach((field) => { field.textContent = ''; }); setMessage(form.querySelector('.form-message'), ''); };
+const setAccountModalState = (state) => { const isSignup = state === 'signup'; loginState.hidden = isSignup; signupState.hidden = !isSignup; clearFormMessages(isSignup ? signupForm : loginForm); };
+const openAccountModal = (state = 'login') => { setAccountModalState(state); accountModal.hidden = false; document.body.classList.add('modal-open'); (state === 'signup' ? signupForm : loginForm).querySelector('input').focus(); };
+const closeAccountModal = () => { accountModal.hidden = true; if (profileModal.hidden && collegeModal.hidden) document.body.classList.remove('modal-open'); };
 
 const openProfileModal = () => {
   const profile = getCurrentProfile();
@@ -383,12 +396,13 @@ const loadColleges = async () => {
   if (!window.supabase || !config.url || !config.anonKey) {
     dataStatus.textContent = 'College data is unavailable. Add the Supabase publishable key to js/config.js.';
     dataStatus.classList.add('error');
+    console.error('Supabase client configuration is missing.');
     return;
   }
 
   const supabaseClient = window.supabase.createClient(config.url, config.anonKey);
   const [collegeRequest, programRequest] = await Promise.allSettled([
-    supabaseClient.from('colleges').select('id, name, city, state, official_website, affiliation, established_year, course, fees, eligibility, admission_status, application_url, description, last_verified_at, academic_data_verified_at'),
+    supabaseClient.from('colleges').select('id, name, city, state, course, courses, fees, eligibility, admission_status, description, application_url, website, official_website, affiliation, category, institution_type, ownership, address, established_year, last_verified_at, source_url, academic_data_verified_at'),
     supabaseClient.from('college_programs').select('id, college_id, program_name, level, fees, eligibility, admission_status, application_url, academic_data_verified_at, source_url')
   ]);
   const collegeResult = collegeRequest.status === 'fulfilled' ? collegeRequest.value : { data: null, error: collegeRequest.reason };
@@ -397,10 +411,11 @@ const loadColleges = async () => {
   if (error) {
     dataStatus.textContent = `Unable to load colleges: ${error.message}`;
     dataStatus.classList.add('error');
+    console.error('Unable to load colleges from public.colleges:', error);
     return;
   }
 
-  colleges = data || [];
+  colleges = (data || []).map(normalizeCollege);
   programsByCollegeId = new Map();
   if (!programResult.error) {
     (programResult.data || []).forEach((program) => {
