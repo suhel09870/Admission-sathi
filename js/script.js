@@ -15,6 +15,7 @@ const collegeModal = document.querySelector('#college-modal');
 const modalCloseButton = document.querySelector('.college-modal-close');
 const modalSecondaryCloseButton = document.querySelector('[data-college-modal-close]');
 const modalApplyButton = document.querySelector('#modal-apply-button');
+const modalWebsiteButton = document.querySelector('#modal-website-button');
 const modalApplyMessage = document.querySelector('#modal-apply-message');
 const modalPrograms = document.querySelector('#modal-programs');
 const modalProgramList = document.querySelector('#modal-program-list');
@@ -79,14 +80,14 @@ const getAdmissionStatusClass = (status) => {
   return 'status-closed';
 };
 
-const displayValue = (value) => {
-  if (value === null || value === undefined || value === '') return 'Not available';
-  if (Array.isArray(value)) return value.join(', ') || 'Not available';
-  if (typeof value === 'object') return 'Not available';
+const displayValue = (value, fallback = 'Not available') => {
+  if (value === null || value === undefined || value === '') return fallback;
+  if (Array.isArray(value)) return value.join(', ') || fallback;
+  if (typeof value === 'object') return fallback;
   return String(value);
 };
 const displayCollegeField = (value) => {
-  return displayValue(value);
+  return displayValue(value, 'Not verified');
 };
 
 const getCollegeCourses = (college) => college.courses.length ? college.courses : normalizeCourses(college.course);
@@ -162,7 +163,7 @@ const openCollegeModal = (college) => {
   modalFields.location.textContent = displayValue([address, location].filter(Boolean).join(' | '));
   modalFields.courseType.textContent = displayCollegeField(getCollegeCourses(college));
   modalFields.courses.textContent = displayCollegeField(getCollegeCourses(college));
-  modalFields.affiliation.textContent = displayValue(college.affiliation);
+  modalFields.affiliation.textContent = displayCollegeField(college.affiliation);
   modalFields.fees.textContent = displayCollegeField(college.fees);
   modalFields.eligibility.textContent = displayCollegeField(college.eligibility);
   modalFields.admissionStatus.textContent = displayCollegeField(college.admission_status);
@@ -170,6 +171,8 @@ const openCollegeModal = (college) => {
   modalFields.description.textContent = [displayCollegeField(college.description), ...metadata].join('\n\n');
   renderPrograms([]);
   modalApplyButton.dataset.applicationUrl = college.application_url || '';
+  modalWebsiteButton.hidden = !isHttpUrl(website);
+  modalWebsiteButton.href = isHttpUrl(website) ? website : '#';
   modalApplyMessage.hidden = true;
   modalApplyMessage.textContent = '';
   collegeModal.hidden = false;
@@ -380,7 +383,7 @@ modalApplyButton.addEventListener('click', () => {
     window.open(applicationUrl, '_blank', 'noopener,noreferrer');
     return;
   }
-  modalApplyMessage.textContent = 'Application link will be available soon.';
+  modalApplyMessage.textContent = 'Official application link not verified.';
   modalApplyMessage.hidden = false;
 });
 collegeModal.addEventListener('click', (event) => { if (event.target === collegeModal) closeCollegeModal(); });

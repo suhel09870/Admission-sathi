@@ -834,7 +834,8 @@
       margin-top: 24px;
     }
 
-    .college-modal-actions button {
+    .college-modal-actions button,
+    .college-modal-actions a {
       flex: 1;
       min-height: 46px;
       padding: 11px 16px;
@@ -849,6 +850,16 @@
       background: #2563eb;
       color: #fff;
       transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .college-website-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #2563eb;
+      background: #fff;
+      color: #2563eb;
+      text-decoration: none;
     }
 
     .college-apply-button:hover {
@@ -1257,6 +1268,7 @@
       </section>
       <div class="college-modal-actions">
         <button class="college-apply-button" id="modal-apply-button" type="button">Apply Now</button>
+        <a class="college-website-button" id="modal-website-button" href="#" target="_blank" rel="noopener noreferrer" hidden>Website</a>
         <button class="college-close-button" type="button" data-college-modal-close>Close</button>
       </div>
       <p class="college-apply-message" id="modal-apply-message" aria-live="polite" hidden></p>
