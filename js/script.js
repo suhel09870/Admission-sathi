@@ -136,12 +136,14 @@ const renderCollegeCards = (visibleColleges) => {
 };
 
 const populateFilterOptions = () => {
-  const filters = [[filterForm.elements.location, 'city', 'All Locations'], [filterForm.elements['course-type'], 'course', 'All Courses'], [filterForm.elements.affiliation, 'affiliation', 'All Affiliations']];
+  const filters = [
+    [filterForm.elements.location, colleges.flatMap((college) => [college.city, college.state]), 'All Locations'],
+    [filterForm.elements['course-type'], colleges.map((college) => college.course), 'All Courses'],
+    [filterForm.elements.affiliation, colleges.map((college) => college.affiliation), 'All Affiliations']
+  ];
   filters.forEach(([select, field, label]) => {
     select.replaceChildren(new Option(label, ''));
-    const values = colleges
-      .map((college) => college[field])
-      .filter((value) => value !== null && value !== undefined && String(value).trim() !== '');
+    const values = field.filter((value) => value !== null && value !== undefined && String(value).trim() !== '');
     [...new Set(values)].sort().forEach((value) => select.add(new Option(value, value)));
   });
 };
