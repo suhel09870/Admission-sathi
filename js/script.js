@@ -174,9 +174,30 @@ const updateVisibleCards = () => {
   const selectedCourse = filterForm.elements['course-type'].value;
   const selectedAffiliation = filterForm.elements.affiliation.value;
   const visibleColleges = colleges.filter((college) => {
-    const searchableText = [college.name, college.city, college.state, college.course, college.affiliation].filter(Boolean).join(' ').toLowerCase();
-    return (!searchTerm || searchableText.includes(searchTerm)) && (!selectedLocation || [college.city, college.state].includes(selectedLocation)) && (!selectedCourse || college.course === selectedCourse) && (!selectedAffiliation || college.affiliation === selectedAffiliation);
-  });
+  const programs = programsByCollegeId.get(college.id) || [];
+
+  const programSearchText = programs
+    .flatMap((program) => [program.program_name, program.level])
+    .filter(Boolean);
+
+  const searchableText = [
+    college.name,
+    college.city,
+    college.state,
+    college.course,
+    college.affiliation,
+    ...programSearchText
+  ]
+    .join(' ')
+    .toLowerCase();
+
+  return (
+    (!searchTerm || searchableText.includes(searchTerm)) &&
+    (!selectedLocation || [college.city, college.state].includes(selectedLocation)) &&
+    (!selectedCourse || college.course === selectedCourse) &&
+    (!selectedAffiliation || college.affiliation === selectedAffiliation)
+  );
+});
   renderCollegeCards(visibleColleges);
   noResultsMessage.hidden = visibleColleges.length > 0;
 };
