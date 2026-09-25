@@ -178,7 +178,10 @@ const openCollegeModal = (college) => {
   modalFields.location.textContent = displayValue([address, location].filter(Boolean).join(' | '));
   modalFields.courseType.textContent = displayCollegeField(getCollegeCourses(college));
   modalFields.courses.textContent = displayCollegeField(getCollegeCourses(college));
-  modalFields.affiliation.textContent = displayCollegeField(college.affiliation);
+  modalFields.affiliation.textContent =
+  college.institution_type === 'University'
+    ? 'Not applicable'
+    : displayCollegeField(college.affiliation);
   modalFields.fees.textContent = displayCollegeField(college.fees);
   modalFields.eligibility.textContent = displayCollegeField(college.eligibility);
   modalFields.admissionStatus.textContent = displayCollegeField(college.admission_status);
