@@ -155,10 +155,12 @@ const renderPrograms = (programs) => {
     item.className = 'program-item';
     title.textContent = program.program_name || '';
     appendProgramField(details, 'Level', program.level);
+    appendProgramField(details, 'Duration', program.duration);
     appendProgramField(details, 'Admission status', program.admission_status);
     appendProgramField(details, 'Fees', program.fees);
     appendProgramField(details, 'Eligibility', program.eligibility);
     appendProgramLink(details, 'Application', program.application_url, 'Apply');
+    appendProgramField(details, 'Verified date', program.academic_data_verified_at);
     appendProgramLink(details, 'Source', program.source_url, 'Official source');
     item.append(title, details);
     modalProgramList.append(item);
