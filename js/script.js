@@ -90,7 +90,22 @@ const displayCollegeField = (value) => {
   return displayValue(value, 'Not verified');
 };
 
-const getCollegeCourses = (college) => college.courses.length ? college.courses : normalizeCourses(college.course);
+const getCollegeCourses = (college) => {
+  const programs = programsByCollegeId.get(college.id) || [];
+
+  const programCourses = programs
+    .map((program) => program.program_name)
+    .filter((name) => name !== null && name !== undefined && String(name).trim() !== '')
+    .map((name) => String(name).trim());
+
+  if (programCourses.length) {
+    return [...new Set(programCourses)];
+  }
+
+  return college.courses.length
+    ? college.courses
+    : normalizeCourses(college.course);
+};
 const getCollegeWebsite = (college) => college.official_website || college.website;
 
 const isHttpUrl = (value) => {
@@ -169,7 +184,8 @@ const openCollegeModal = (college) => {
   modalFields.admissionStatus.textContent = displayCollegeField(college.admission_status);
   modalFields.admissionStatus.className = `admission-status ${getAdmissionStatusClass(college.admission_status)}`;
   modalFields.description.textContent = [displayCollegeField(college.description), ...metadata].join('\n\n');
-  renderPrograms([]);
+  const collegePrograms = programsByCollegeId.get(college.id) || [];
+renderPrograms(collegePrograms);
   modalApplyButton.dataset.applicationUrl = college.application_url || '';
   modalWebsiteButton.hidden = !isHttpUrl(website);
   modalWebsiteButton.href = isHttpUrl(website) ? website : '#';
