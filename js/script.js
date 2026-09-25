@@ -178,7 +178,10 @@ const openCollegeModal = (college) => {
   modalFields.location.textContent = displayValue([address, location].filter(Boolean).join(' | '));
   modalFields.courseType.textContent = displayCollegeField(getCollegeCourses(college));
   modalFields.courses.textContent = displayCollegeField(getCollegeCourses(college));
-  modalFields.affiliation.textContent = displayCollegeField(college.affiliation);
+  modalFields.affiliation.textContent =
+  college.institution_type === 'University'
+    ? 'Not applicable'
+    : displayCollegeField(college.affiliation);
   modalFields.fees.textContent = displayCollegeField(college.fees);
   modalFields.eligibility.textContent = displayCollegeField(college.eligibility);
   modalFields.admissionStatus.textContent = displayCollegeField(college.admission_status);
@@ -198,14 +201,13 @@ renderPrograms(collegePrograms);
 const createCollegeCard = (college) => {
   const card = document.createElement('article');
   card.className = 'college-card';
-  card.innerHTML = '<h3></h3><dl class="college-info"><div><dt>Location</dt><dd></dd></div><div><dt>Course</dt><dd></dd></div><div><dt>Fees</dt><dd></dd></div><div><dt>Admission status</dt><dd class="admission-status"></dd></div></dl><button class="view-details" type="button">View Details</button>';
+  card.innerHTML = '<h3></h3><dl class="college-info"><div><dt>Location</dt><dd></dd></div><div><dt>Course</dt><dd></dd></div><div><dt>Admission status</dt><dd class="admission-status"></dd></div></dl><button class="view-details" type="button">View Details</button>';
   card.querySelector('h3').textContent = displayValue(college.name);
   const details = card.querySelectorAll('.college-info dd');
   details[0].textContent = displayValue([college.city, college.state].filter(Boolean).join(', '));
   details[1].textContent = displayCollegeField(getCollegeCourses(college));
-  details[2].textContent = displayCollegeField(college.fees);
-  details[3].textContent = displayCollegeField(college.admission_status);
-  details[3].className = `admission-status ${getAdmissionStatusClass(college.admission_status)}`;
+  details[2].textContent = displayCollegeField(college.admission_status);
+  details[2].className = `admission-status ${getAdmissionStatusClass(college.admission_status)}`;
   card.querySelector('.view-details').addEventListener('click', () => openCollegeModal(college));
   return card;
 };
@@ -422,7 +424,7 @@ const loadColleges = async () => {
   const supabaseClient = window.supabase.createClient(config.url, config.anonKey);
   const [collegeRequest, programRequest] = await Promise.allSettled([
     supabaseClient.from('colleges').select('id, name, city, state, course, courses, fees, eligibility, admission_status, description, application_url, website, official_website, affiliation, category, institution_type, ownership, address, established_year, last_verified_at, source_url, academic_data_verified_at'),
-    supabaseClient.from('college_programs').select('id, college_id, program_name, level, fees, eligibility, admission_status, application_url, academic_data_verified_at, source_url')
+    supabaseClient.from('college_programs').select('id, college_id, program_name, level, duration, fees, eligibility, admission_status, application_url, academic_data_verified_at, source_url')
   ]);
   const collegeResult = collegeRequest.status === 'fulfilled' ? collegeRequest.value : { data: null, error: collegeRequest.reason };
   const programResult = programRequest.status === 'fulfilled' ? programRequest.value : { data: null, error: programRequest.reason };
