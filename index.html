@@ -46,7 +46,19 @@
       color: #1e3a8a;
       font-size: 1.3rem;
     }
+    .brand-logo {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
 
+.brand-logo img {
+  display: block;
+  width: 190px;
+  height: auto;
+  max-height: 70px;
+  object-fit: contain;
+}
     .account-button {
       min-height: 42px;
       padding: 10px 16px;
@@ -1296,7 +1308,9 @@
   <main class="page-container">
     <header class="page-header">
       <div class="page-header-top">
-        <p class="brand-name">Admission Saathi</p>
+        <a href="#" class="brand-logo" aria-label="Admission Saathi Home">
+  <img src="assets/03_AS_monogram.png" alt="Admission Saathi">
+</a>
         <button class="account-button" id="account-button" type="button">Login</button>
       </div>
       <h1>Find Your Right College</h1>
