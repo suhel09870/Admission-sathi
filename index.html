@@ -1070,6 +1070,99 @@
         grid-column: auto;
       }
     }
+  /* ===== Admission Saathi Auth Animation ===== */
+
+.account-modal-content {
+  animation: authModalIn 0.35s ease-out;
+  transform-origin: center;
+}
+
+@keyframes authModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+#login-state,
+#signup-state {
+  animation: authContentIn 0.3s ease-out;
+}
+
+@keyframes authContentIn {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.account-field {
+  animation: fieldIn 0.35s ease-out both;
+}
+
+.account-field:nth-child(1) {
+  animation-delay: 0.04s;
+}
+
+.account-field:nth-child(2) {
+  animation-delay: 0.08s;
+}
+
+.account-field:nth-child(3) {
+  animation-delay: 0.12s;
+}
+
+.account-field:nth-child(4) {
+  animation-delay: 0.16s;
+}
+
+.account-field:nth-child(5) {
+  animation-delay: 0.20s;
+}
+
+@keyframes fieldIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.account-submit {
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.account-submit:hover {
+  transform: translateY(-2px);
+}
+
+.account-submit:active {
+  transform: translateY(0);
+}
+
+.account-switch button {
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.account-switch button:hover {
+  transform: translateY(-1px);
+}
   </style>
 </head>
 <body>
