@@ -1302,6 +1302,47 @@
 .account-switch button:hover {
   transform: translateY(-1px);
 }
+ /* ===== Admission Saathi Mobile Header ===== */
+
+@media (max-width: 520px) {
+  .page-header {
+    padding: 18px 14px 16px;
+  }
+
+  .page-header-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .brand-logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .brand-logo img {
+    width: 155px;
+    height: auto;
+    max-height: 62px;
+    object-fit: contain;
+  }
+
+  .account-button {
+    width: auto;
+    min-width: 92px;
+    height: 40px;
+    padding: 0 18px;
+    flex-shrink: 0;
+  }
+
+  .page-header h1 {
+    margin-top: 4px;
+  }
+}
   </style>
 </head>
 <body>
