@@ -1302,45 +1302,78 @@
 .account-switch button:hover {
   transform: translateY(-1px);
 }
- /* ===== Admission Saathi Mobile Header ===== */
+  /* ===== FINAL ADMISSION SAATHI BRAND HEADER ===== */
 
+.page-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  text-decoration: none;
+  min-width: 0;
+}
+
+.brand-logo img {
+  display: block;
+  width: 46px;
+  height: 46px;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 9px;
+  flex-shrink: 0;
+}
+
+.brand-title {
+  color: #17345f;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.brand-title strong {
+  color: #09b8aa;
+}
+
+.account-button {
+  flex: 0 0 auto;
+}
+
+/* Mobile */
 @media (max-width: 520px) {
-  .page-header {
-    padding: 18px 14px 16px;
-  }
-
   .page-header-top {
-    display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    gap: 8px;
     margin-bottom: 18px;
   }
 
   .brand-logo {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
+    gap: 8px;
   }
 
   .brand-logo img {
-    width: 155px;
-    height: auto;
-    max-height: 62px;
-    object-fit: contain;
+    width: 42px;
+    height: 42px;
+  }
+
+  .brand-title {
+    font-size: 16px;
   }
 
   .account-button {
-    width: auto;
-    min-width: 92px;
-    height: 40px;
-    padding: 0 18px;
-    flex-shrink: 0;
-  }
-
-  .page-header h1 {
-    margin-top: 4px;
+    width: 82px;
+    min-height: 38px;
+    padding: 8px 12px;
+    font-size: 13px;
   }
 }
   </style>
@@ -1348,16 +1381,24 @@
 <body>
   <main class="page-container">
     <header class="page-header">
-      <div class="page-header-top">
-        <a href="#" class="brand-logo" aria-label="Admission Saathi Home">
-  <img src="assets/03_AS_monogram.png" alt="Admission Saathi">
-</a>
-        <button class="account-button" id="account-button" type="button">Login</button>
-      </div>
-      <h1>Find Your Right College</h1>
-      <p>Explore colleges and discover the right path for your future.</p>
-    </header>
+  <div class="page-header-top">
+    <a href="#" class="brand-logo" aria-label="Admission Saathi Home">
+      <span class="brand-icon">
+        <img src="assets/03_AS_monogram.png" alt="">
+      </span>
 
+      <span class="brand-text">
+        <span class="brand-title">Admission <strong>Saathi</strong></span>
+        <span class="brand-tagline">Explore · Compare · Apply</span>
+      </span>
+    </a>
+
+    <button class="account-button" id="account-button" type="button">Login</button>
+  </div>
+
+  <h1>Find Your Right College</h1>
+  <p>Explore colleges and discover the right path for your future.</p>
+</header>
     <section class="home-section" aria-labelledby="home-title">
       <h1 id="home-title">Find Your Perfect College</h1>
       <p class="home-subtitle">College, course, fees aur admission information — sab kuch ek jagah.</p>
